@@ -95,7 +95,7 @@ def eval_test(
             # generate mask
             video_mask = convert_length_to_mask(vfeat_lens).to(device)
             # compute predicted results
-            _, start_logits, end_logits = model(
+            start_logits, end_logits = model(
                 word_ids, char_ids, vfeats, video_mask, query_mask
             )
             start_indices, end_indices = model.extract_index(start_logits, end_logits)
