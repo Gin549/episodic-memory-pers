@@ -158,13 +158,13 @@ def main(configs, parser):
                     word_ids, char_ids, vfeats, video_mask, query_mask
                 )
                 # compute loss
-                highlight_loss = model.compute_highlight_loss(
-                    h_score, h_labels, video_mask
-                )
+                #highlight_loss = model.compute_highlight_loss(
+                #    h_score, h_labels, video_mask
+                #)
                 loc_loss = model.compute_loss(
                     start_logits, end_logits, s_labels, e_labels
                 )
-                total_loss = loc_loss + configs.highlight_lambda * highlight_loss
+                total_loss = loc_loss
                 # compute and apply gradients
                 optimizer.zero_grad()
                 total_loss.backward()
@@ -176,8 +176,8 @@ def main(configs, parser):
                 if writer is not None and global_step % configs.tb_log_freq == 0:
                     writer.add_scalar("Loss/Total", total_loss.detach().cpu(), global_step)
                     writer.add_scalar("Loss/Loc", loc_loss.detach().cpu(), global_step)
-                    writer.add_scalar("Loss/Highlight", highlight_loss.detach().cpu(), global_step)
-                    writer.add_scalar("Loss/Highlight (*lambda)", (configs.highlight_lambda * highlight_loss.detach().cpu()), global_step)
+                    #writer.add_scalar("Loss/Highlight", highlight_loss.detach().cpu(), global_step)
+                    #writer.add_scalar("Loss/Highlight (*lambda)", (configs.highlight_lambda * highlight_loss.detach().cpu()), global_step)
                     writer.add_scalar("LR", optimizer.param_groups[0]["lr"], global_step)
 
                 # evaluate
