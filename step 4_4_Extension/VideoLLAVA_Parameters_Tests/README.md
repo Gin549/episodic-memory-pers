@@ -4,7 +4,7 @@
 **Default parameters used**<br />
 -{"max_new_tokens":100,
 "do_sample":True,
-"top_p":0.6,
+"top_p":0.9,
 "top_k":2}<br />
 
 **File notation**<br />
