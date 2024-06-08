@@ -1,0 +1,51 @@
+USER: Where was the genre book before I picked it? ASSISTANT: The genre book was on the shelf before I picked it.Ћ
+USER: How many doughs did i apply egg on? ASSISTANT: You applied egg on three doughs.Ъ
+USER: how many piece of tomato did I cut? ASSISTANT: I cut four pieces of tomato.Ъ
+USER: what did i pour in the pan? ASSISTANT: You poured a green substance in the pan, which is now cooking.Ћ
+USER: what words were written on the box close to the wall? ASSISTANT: The words written on the box close to the wall were "2 GAY."
+USER: Where was the egg before I picked it? ASSISTANT: The egg was in the refrigerator before you picked it.Ъ
+USER: Who did i interact with when i queued in the supermarket ASSISTANT: When you queued in the supermarket, you interacted with a woman who was standing behind the counter.Ъ.
+USER: Where did I put the ham? ASSISTANT: The ham is placed on top of the refrigerator.Ћ
+USER: Where is the red bicycle ASSISTANT: The red bicycle is located in front of a building.Ъ
+USER: How many wires did i carry from the shelf? ASSISTANT: I carried three wires from the shelf.Ћ
+USER: What did I pour in the sink? ASSISTANT: The person in the video poured a bottle of detergent into the sink, which is a common household cleaning product used to remove dirt and stains from various surfaces.Ъе
+USER: How many onions was chopped? ASSISTANT: The image does not provide information on the number of onions that were chopped.Ъ
+USER: Did I leave the tap open? ASSISTANT: No, you did not leave the tap open.Ъ
+USER: Where is round brush before picked? ASSISTANT: The round brush is on the floor before it is picked up by the person in the red shirt.Ъ
+USER: what did l put in the drawer ASSISTANT: L put a beer bottle and a can of beer in the drawer.Ъе╝
+USER: What color of shirt was the woman in the room wearing? ASSISTANT: The woman in the room was wearing a black shirt.Ъ
+USER: where did i open the door  ASSISTANT: The man is opening the door to his house, which is located on the corner of a road.Ћ
+USER: What did I throw in the bin? ASSISTANT: The person in the video threw a cup in the bin, and it is shown in the video that the cup is yellow.Ћ
+USER: What vegetables did I chop?  ASSISTANT: You chopped celery and onions.Ъ
+USER: Where was the utility knife before i picked it ? ASSISTANT: The utility knife was on the ground before the person picked it up.Ъ
+USER: What color is the paper I moved with my right hand? ASSISTANT: The paper you moved with your right hand is white.Ћ
+USER: Where did I put tile cutter? ASSISTANT: The tile cutter is sitting on the floor next to the washing machine.Ћ
+USER: Did I return the food pan to the cupboard? ASSISTANT: No, you did not return the food pan to the cupboard.Ъ
+USER: What did I put in the dough in the mixer?  ASSISTANT: You put flour in the dough in the mixer.Ћ
+USER: How many books did I drop on the bed? ASSISTANT: You dropped 10 books on the bed.Ъ
+USER: Who did i talk to at the ATM place ? ASSISTANT: You talked to a woman at the ATM place.Ћ
+USER: What tool did I use to loosen the bolt? ASSISTANT: You used a wrench to loosen the bolt.Ћ
+USER: What color is the glove i covered my face with? ASSISTANT: The glove you covered your face with is black.Ъ
+USER: How many fuse holders did I pick from the box? ASSISTANT: You picked two fuse holders from the box.Ъ
+USER: where did  put the clothe before l hanged them ASSISTANT: The person hung the clothing on the rack before hanging them up.Ъ.
+USER: Where were the tissue rolls after I arranged them? ASSISTANT: After I arranged the tissue rolls in the bathroom, I placed them in the tissue box, which is located on the floor next to the toilet.Ћ
+USER: Where was the spoon before I picked it? ASSISTANT: The spoon was in the sink before I picked it up.Ћ
+USER: Where was the Orange Jerrycan? ASSISTANT: The orange Jerrycan is located next to the man who is holding the skateboard.Ћ
+USER: What food did I eat? ASSISTANT: The person in the image ate a bowl of cereal.Ъе
+USER: How many plates did I pick? ASSISTANT: You picked up two plates from the refrigerator.Ћ
+USER: what did I put in the fridge? ASSISTANT: The person in the image has put a bunch of beer in the fridge.Ъ.
+USER: where did i put my phone? ASSISTANT: I put my phone on the counter.Ъ
+USER: What did I take from the fridge? ASSISTANT: You took a bottle of beer out of the fridge.Ъ
+USER: How many tools where in the bucket?   ASSISTANT: There are three tools in the bucket.Ъ.
+USER: what napkin did I clean my hands with? ASSISTANT: You used a blue and white checkered napkin to wipe your hands.Ъ
+USER: Did I wash the green pepper? ASSISTANT: No, the green pepper is not washed.Ъ
+USER: Where did I put the wire? ASSISTANT: You have put the wire on the side of the ladder.Ћ
+USER: What tool did I use on the machine first  ASSISTANT: The person used a green tool on the machine first, which is a common practice when using power tools to prevent damage to the tool and ensure its longevity.Ћ
+USER: How many scoops of flour did I put  in the bucket?  ASSISTANT: I put 3 scoops of flour in the bucket.Ћ
+USER: How much oil did I put in the pot? ASSISTANT: I put a lot of oil in the pot, so it will be very oily.Ъ
+USER: How many pies were in the brown plate? ASSISTANT: There are two pies in the brown plate.Ћ
+USER: What did I pick from the closet ASSISTANT: You picked a white shirt from the closet.Ъ
+USER: How many bottles of coke was in the pack I took? ASSISTANT: The pack you took had 67 bottles of Coca-Cola in it.Ћ
+USER: Where is phone ASSISTANT: The phone is being held in the person's hand.Ћ
+USER: where was the machine before I opened the door? ASSISTANT: The machine was on the stairs before you opened the door.Ъ
+{'max_length': 30}

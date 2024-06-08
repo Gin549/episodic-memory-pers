@@ -1,0 +1,53 @@
+USER: Where is phone ASSISTANT: The phone is being held in the man's hand while he looks at it in the dark room.Ћ
+USER: How many doughs did i apply egg on? ASSISTANT: I applied egg on 8 of the doughs.Ћ
+USER: Where did I put the ham? ASSISTANT: The person is putting the ham in the refrigerator.Ћ
+USER: What color is the glove i covered my face with? ASSISTANT: The color of the glove you covered your face with in the image is white. (or possibly black, depending on the lighting). It is unclear if this is the same color of the glove you are wearing in the image.
+USER: how many piece of tomato did I cut? ASSISTANT: The image shows someone cutting a tomato with a pair of scissors.Ъећ. The exact number of pieces cut is unclear, as it could be anywhere between 1 to 100.
+USER: What vegetables did I chop?  ASSISTANT: You cut up some green peppers and a piece of broccoli.Ћ
+USER: what words were written on the box close to the wall? ASSISTANT: The box near the wall had the word '2' written on it.Ъ.
+USER: What tool did I use on the machine first  ASSISTANT: The man in the video is seen using an electric drill on the yellow machine first, followed by a green tool.Ъ
+USER: where was the machine before I opened the door? ASSISTANT: The vacuum cleaner was placed in front of a staircase before the door was opened.Ъ
+USER: Who did i talk to at the ATM place ? ASSISTANT: You talked to a woman at the ATM place.Ъ
+USER: Where did I put tile cutter? ASSISTANT: The tile cutter was placed on the ground, near the person cutting tiles.Ћ
+USER: what did i pour in the pan? ASSISTANT: The man in the video is pouring something into a pan.Ъ
+USER: where did i put my phone? ASSISTANT: I put my phone in the pocket on the back of the chair.Ъ
+USER: How many pies were in the brown plate? ASSISTANT: The image shows a person cutting a pie on a cutting board, so there is at least one piece of pie in the brown plate.Ъ
+USER: Where was the plier before I picked it? ASSISTANT: The plier was on a shelf before you picked it up to work on the bike.Ъ
+USER: Where is the red bicycle ASSISTANT: The red bicycle is located on the sidewalk, next to the road.Ћ
+USER: What did I throw in the bin? ASSISTANT: You threw a black plastic cup in the trash bin.Ъ
+USER: How many scoops of flour did I put  in the bucket?  ASSISTANT: You have added three scoops of flour to the bucket.Ћ.
+USER: what did I put in the fridge? ASSISTANT: You put a bunch of beer in the refrigerator.Ъ.
+USER: How many books did I drop on the bed? ASSISTANT: I dropped three books on the bed.Ъ
+USER: Where were the tissue rolls after I arranged them? ASSISTANT: The person arranged the tissue rolls in a neat stack in the bathroom, which suggests that they are now located on the toilet tank.Ћ
+USER: How many bottles of coke was in the pack I took? ASSISTANT: The pack you took has 12 bottles in it.Ъ
+USER: Where was the egg before I picked it? ASSISTANT: The egg that the man is picking from the fridge was previously in a refrigerator.Ъ
+USER: What color is the paper I moved with my right hand? ASSISTANT: The color of the paper you moved with your right hand is green.Ћ
+USER: Did I return the food pan to the cupboard? ASSISTANT: Yes, you returned the pan to the cupboard.Ћ
+USER: what napkin did I clean my hands with? ASSISTANT: The napkin you used to clean your hands with was a blue and white checkered pattern.Ћ.
+
+In summary, the video shows a person washing their hands in a sink, and they used a blue and white checkered pattern napkin to wipe off the soap. The video also features a person holding up a blue and white checkered pattern towel, which is the same color and pattern of the napkin used for handwashing.
+USER: Where is round brush before picked? ASSISTANT: Before the person picks up the round brush, they are holding a remote control in their hand, and the brush is on the ground.Ъ
+USER: Where was the spoon before I picked it? ASSISTANT: The spoon was in a white bowl before you picked it.Ћ
+USER: Where was the Orange Jerrycan? ASSISTANT: The orange Jerrycan is located next to a blue car in the image, and it is positioned near the man's feet.Ћ
+USER: How many onions was chopped? ASSISTANT: There are three onions chopped.Ъ
+USER: What did I put in the dough in the mixer?  ASSISTANT: You put flour in the dough mixer to create the dough mixture for baking bread or other baked goods.Ъ
+USER: Who did i interact with when i queued in the supermarket ASSISTANT: When you queued in the supermarket, you interacted with a woman who was standing behind the cashier.Ћ
+USER: How many plates did I pick? ASSISTANT: You picked up one white plate from a white dish rack.Ъе
+USER: Where was the genre book before I picked it? ASSISTANT: The genre book was on a bookshelf before you picked it up to read.Ћ
+USER: What color of shirt was the woman in the room wearing? ASSISTANT: The woman was wearing a grey shirt.Ъ
+USER: what did l put in the drawer ASSISTANT: L placed the remote in the drawer.Ћ
+USER: How many fuse holders did I pick from the box? ASSISTANT: I picked three different types of fuse holders out of the box.Ъе
+USER: What tool did I use to loosen the bolt? ASSISTANT: You used an adjustable wrench to loosen the bolt on the mower.Ъ
+USER: What did I pour in the sink? ASSISTANT: The woman poured water into the sink, as well as a bottle and some other liquid.Ъ
+USER: Did I wash the green pepper? ASSISTANT: No, you have not yet washed the green pepper.Ћ
+USER: How many wires did i carry from the shelf? ASSISTANT: I carried 4 wires from the shelf.Ъ
+USER: How many tools where in the bucket?   ASSISTANT: There were three tools in the bucket.Ъ
+USER: where did  put the clothe before l hanged them ASSISTANT: The person put the clothing item on a rack or a hanger to dry.Ћ
+USER: What did I pick from the closet ASSISTANT: From the closet, you picked a yellow towel.Ъ
+USER: Did I leave the tap open? ASSISTANT: No, you did not leave the tap open.Ћ
+USER: How much oil did I put in the pot? ASSISTANT: You put 1/4 cup of oil into the pot.Ъе╝
+USER: where did i open the door  ASSISTANT: I opened the front door of the house to let in a man wearing a blue shirt and jeans.Ћ
+USER: Where did I put the wire? ASSISTANT: The wire is attached to the wall, and the person is using it to hold the black box in place while working on it with a screwdriver.Ћ
+USER: Where was the utility knife before i picked it ? ASSISTANT: Before you picked it up, the utility knife was sitting on the table next to the newspaper and other tools, as seen in the image.Ъ
+USER: What food did I eat? ASSISTANT: You ate some food from a plate.Ћ
+{'temperature': 2.0}
