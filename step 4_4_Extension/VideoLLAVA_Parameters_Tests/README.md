@@ -1,7 +1,7 @@
 **Notes on the test** <br />
 -The tests were conducted by starting with the default parameters and then changing only one parameter at a time.<br />
 
-**Default paramter we used**<br />
+**Default parameters used**<br />
 -{"max_new_tokens":100,
 "do_sample":True,
 "top_p":0.6,
