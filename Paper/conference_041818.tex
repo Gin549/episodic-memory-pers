@@ -9,6 +9,9 @@
 \usepackage{xcolor}
 \usepackage{graphicx} % for \includegraphics command
 \usepackage{float} % for [H] option to force figure placement
+\usepackage{caption}
+\usepackage{booktabs}
+\usepackage{multirow}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -177,6 +180,94 @@ During our tests we tried to change some parameters related to output of Video-L
      \item \textit{\textbf{Num Beam}} it controls the number of sequence that the model maintains at each step, an higher number can lead to more accurate solution. Basically every time the algorithm try to combine to the current sequences all the possible words, after doing that, the probability of all the new sequences is computed and the $Num Beam$ most probable sequences are kept for the following step
     
 \end{itemize}
+
+
+\section{Results}
+\subsection{Numerical Results}
+\subsubsection{NLQ task}
+The metrics that we took into consideration to compare the results we obtained are the following:
+\begin{itemize}
+    \item \textit{\textbf{IoU}}, Intersection over Union(IoU), it is the proportion between the intersection and the union of the ground-truth and predicted intervals\\
+    \begin{equation}
+        IoU = \frac{\text{PredictedInterval} \cap \text{Ground-TruthIntverval}}{\text{PredictedInterval} \cup \text{Ground-TruthIntverval}}
+    \end{equation}
+    \item \textit{\textbf{r@k}}, Recall at rank k (r@k) is used to measure how high the correct interval is positioned in the ranking of a prediction. For example, r@1 indicates the percentage of predictions where the correct interval is ranked as the most probable solution. This metric accounts for the fact that, for each query, multiple intervals may be identified as possible solutions, and these intervals are ranked based on how well the model considers them to match the query, rather than purely on probability 
+\end{itemize}
+
+\begin{table}[h]
+\centering
+\caption{NLQ Performance}
+\label{tab:performance}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+\multirow{2}{*}{Model} & \multirow{2}{*}{Features} & \multicolumn{2}{c}{IoU=0.3 (\%)} & \multicolumn{2}{c}{IoU=0.5 (\%)} \\ 
+& & r@1  & r@5 & r@1   & r@5       \\ \midrule
+VSLNet Paper Baseline & SlowFast & 5.45 & 10.74 & 3.12 & 6.63 \\ 
+VSLNet & Omnivore & 6.48 & 14.04 & 3.72 & 8.70 \\ 
+VSLNet & EgoVlp & 8.03 & 15.82 & 4.75 & 10.12 \\ 
+VSLBase & Omnivore & 6.58 & 13.37 & 3.56 & 8.60 \\
+VSLBase & EgoVlp & 7.18 & 14.74 & 4.26 & 9.65 \\
+VSLNet* & Omnivore & 2.89 & 8.21 & 1.03 & 4.54 \\
+VSLNet* & EgoVlp & 3.05 & 8.36 & 1.21 & 4.34 \\
+\bottomrule
+\end{tabular}
+\captionsetup{font=footnotesize}
+\caption*{VSLNet* is the version that uses GloVe as encoder instead of BERT.}
+\end{table}
+From the table, for the networks that use the BERT encoder, we can see that both VSLNet and VSLBase, which use Omnivore features and EgoVlp features as pre-extracted features, perform better than VSLNet using SlowFast features. It is important to note that this improvement could also be due to updates in annotations and features since the publication of the original baseline in the paper.
+\\
+In particular, VSLNet with EgoVlp features significantly outperforms the others when we consider $IoU = 0.3$ and $r@1$, as well as when $IoU = 0.5$ and $r@5$.
+\\
+networks that do not use BERT as an encoder perform significantly worse than those that do. This could be because the BERT encoder is a more sophisticated model that also takes into account the context in which words are used
+
+
+
+
+
+
+
+\subsubsection{Extension evaluation}
+For the VLM task evaluation we decided to use the following metrics:
+\begin{itemize}
+    \item \textit{\textbf{R-F1}}, ROUGE-1 F1 Score(R-F1) is related to to overlap between the predicted sentence and the ground-truth. Computed as $F1-Score$ using the precision and recall computed in this way: 
+    \begin{equation*}
+        Precision = \frac{\text{\small Number of overlapping words}}{\text{ \small Total words in the prediction}}
+    \end{equation*}
+     \begin{equation}
+        Recall = \frac{\text{\small Number of overlapping words}}{\text{\small Total words in the ground truth}}
+    \end{equation}
+    \item \textit{\textbf{METEOR}},The METEOR score is a more comprehensive metric than ROUGE. In addition to recall and precision, it incorporates an alignment component that measures how well the predictions align with the ground truth. Like ROUGE, METEOR produces a score between 0 and 1. However, precision and recall in METEOR are computed after an alignment process that includes stemming and synonym matching
+    \item \textit{\textbf{B-F1}}, The BERT F1 Score(B-F1) is as an advanced evaluation metric because it incorporates contextual understanding. It utilizes pre-trained contextual embeddings from BERT to compare the embeddings of the prediction sentence and ground truth sentence, measuring their similarity with cosine similarity. After this process it is possible to compute the recall, precision and F1 score(B-F1)
+\end{itemize}
+
+\begin{table}[h]
+\centering
+\caption{VLM Performance}
+\label{tab:comparisonSCore}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Configuration & R F1 & Meteor & B-F1 \\ \midrule
+Default & 0.2789 & 0.2127 & 0.8667 \\
+Temperature 2.0 & 0.0270 & 0.0219 & 0.8041 \\
+Temperature 0.7 & 0.0528 & 0.0472 & 0.8113 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+In \ref{tab:comparisonSCore} we show the results obtained in the score, using models with some parameters variations.
+The default parameter were:
+\begin{itemize}
+    \item $Temperature = 1.0$
+    \item $Num Beam = 1$
+    \item $Top K = 2$
+    \item $Top P = 0.9$
+    \item $Max new tokens = 100$
+\end{itemize}
+In the table, each configuration name represents the parameter we modified from the default settings to generate new predictions and obtain the corresponding scores.
+We have done multiple test on the parameter mentioned in [citare sezione].Here we present the results obtained with the default parameters, the configuration that performed the worst, and the configuration that was closest to the default that performed the best.\\
+It is notable that for both R-F1 and Meteor metrics, no configuration has achieved results as good as those obtained with the default parameters. This could be attributed to the fact that the ground truth used for reference was annotated by us, indicating that the default configuration produced predictions most similar to human language. When considering B-F1 scores, they are generally higher overall and closer to each other across configurations. One explanation could be the BERT score ability to assign high scores even when predictions and ground-truths are somewhat dissimilar. This could happen because B-F1 assesses similarity also based on semantic similarity, meaning that sentences can be considered similar if they contain words from the same semantic domain, regardless of exact phrasing.
+\\
+The previous consideration was more focuse on the sentences semantic, if we talk about the accuracy of the predictions made by Video-LLaVA, the results is [mettere risultato]. To do this evaluation we had to manually chek if the answers was correct, since the scores value doesn't reflect the correctness. The total number of predictions was 50 we split them based on their category, and in [riferimento al grafico] it is possible to see the performance of the proposed approach on different categories.
 
 \section*{References}
 
