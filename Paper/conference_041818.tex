@@ -144,10 +144,12 @@ The Query-Guided Highlighting (QGH)  has been primarily introduced to better red
 
 \section{Proposed Approach}
 \subsection{Task}
-With the NLQ task, we are able to retrieve only the information about the temporal interval of the video that answers the input query. To also return a textual answer, which could be more useful for the user, we need to use VLMs (Video Language Models).\\
-
-For VLMs, it is computationally expensive to process the entire video to answer the query. Therefore, to counter this computational cost, the proposed approach leverages the strengths of both models. We use the NLQ as the first step of a pipeline to identify the short interval of interest. Then, we can cut the entire video to the interval of interest and feed it to a VLM alongside the query, instead of using the entire clip.\\
-
+In the NLQ task, we use models that retrieve only the
+information about the temporal interval of the video that
+answers the input query, to return also a textual answer,
+which could be more useful for the user, we need to use
+Video Language Models(VLMs).\\
+One problem of VLMs is that it is computationally expensive to process the entire video to answer the query. Therefore, we propose an approach that leverages the strengths of both type of models. We use a VslNet as first step of a pipeline to identify the short interval of interest. Then, we can cut the entire video to the interval of interest and feed it to a VLM alongside the query.
 Another approach could be to aggregate the full video information to make it more feasible for the model. However, this could lead to a loss of detail.\\
 
 The pipeline we used is shown in fig.\ref{fig:fullPipeline}, and for the VLM task, we chose Video-LLaVA.
@@ -157,41 +159,47 @@ Video LLava is a Large Vision-Language model, so given a query and a visual inpu
 Also, in paper [citare paper 4] it is shown that unified visual representation befits LLMs in learning both images and videos when compared to models specifically designed for one of the modalities.
 \subsubsection{Model Structure}
 The first step consists in extracting visual features (from videos or images). For this purpose, LanguageBind encoders are used [citare paper]. These encoders can map different modalities into the textual feature space. At the end of this process, we obtain a unified visual representation.\\ 
-The next step is to use a shared projection layer to project the features, after that they are in the same space with the tokenized textual queries. We can then input all the data into a large LLM to get the answer.\\
-A key point of Video LLaVA is the alignment of visual modalities before projection. LanguageBind naturally aligns image and language in shared feature space. To align video representation to the language space it uses 3 millions video-text pairs from VIDAL-10M[citare paper]. Therefore, before projection, data from both modalities are in a unified feature space.
+The next step is to use a shared projection layer to project the features, then they are in the same space with the tokenized textual queries. We can then input all the data into a large LLM to get the answer.\\
+A key point of Video LLaVA is the alignment of visual modalities before projection. LanguageBind naturally aligns image and language in shared feature space using pretrained encoders. To align video representation to the language space it uses 3 millions video-text pairs from VIDAL-10M[citare paper]. Therefore, before projection, data from both modalities are in a unified feature space.
+
+\begin{figure*}
+  \includegraphics[width=\textwidth,height=4cm]{ProposedPipeLine-removebg-preview.png}
+  \caption{Proposed Pipeline}
+\end{figure*}
 
 \subsubsection{Training pipeline}
-After obtaining the tokenized version of the textual input and visual signals input, the training consists in maximizing the Eq.(scrivere equazione) so that the model can achieve multi-modal understanding capabilities.\\
-In this context, L is the length of the sequence, XA the predicted sequence and Zv,Zt are the tokenized version of the input, the visual and the text, respectively.\\
+After obtaining the tokenized version of the textual input and visual signals input, the training consists in maximizing the likelyhood, so that the model can achieve multi-modal understanding capabilities.
+This means that for each prediction in the training set, the objective is to maximize the probability of returning the ground-truth output based on the given input textual and visual tokens. \\
 On of the strengths of the model is the simultaneous training on images and videos, with every batch containing both types of data.\\
 In the first stage of training, the main focus is on associating the textual data with visual data using a extensive image/video-text pair dataset.\\
 The second phase is the instruction tuning, the objective is still maximizing the likelihood but with the addition of a context variable. The context is the combination of the previous queries and answers.\\
-So, at this stage this model is trained to answer to more than one instruction. It must produce an output for several sequential and more complex queries, taking into consideration the entire conversation.
+Thus, at this stage, this model is trained to answer to more than one instruction. It must produce an output for several sequential and more complex queries, taking into consideration the entire conversation.
 (Non mi sembra importante ma at this stage also the LLM are involved in training)
 
 \subsection{Parameters}
-During our tests we tried to change some parameters related to output of Video-LLaVA, the tested parameters were:
+During our tests we also observed the behaviour of the model bychanging some parameters related to output, the tested parameters were:
 \\
 \begin{itemize}
     \item \textit{\textbf{Max Length}}, it controls the lenght of the produced answer
-    \item \textit{\textbf{Temperature}}, it controls the "creativity" of the answer, for high values, at each step it flattens the probability distribution used to select the next word, so it can happen that the model selects also less probable words during the sequence generation, this could results in more creative but also less accurate answer
-    \item \textit{\textbf{Top K}}, similar to temperature, it also controls the diversity of the output, during the sequence generation, at each step, the model sample from the top K most probable textual tokens, higher value of K means higher diversity but also less accuracy
-    \item \textit{\textbf{Top P}} in a different way from the previous, it also controls the balance between accuracy and diversity, at each step, for the sampling, are chosen the smallest number of tokens that have a cumulative probability greater or equal to P
-     \item \textit{\textbf{Num Beam}} it controls the number of sequence that the model maintains at each step, an higher number can lead to more accurate solution. Basically every time the algorithm try to combine to the current sequences all the possible words, after doing that, the probability of all the new sequences is computed and the $Num Beam$ most probable sequences are kept for the following step
+    \item \textit{\textbf{Temperature}}, it controls the "creativity" of the answer, for high values, at each step, it flattens the probability distribution used to select the next word, so it can happen that the model selects also less probable words during the sequence generation, this could results in more creative but also less accurate answer
+    \item \textit{\textbf{Top K}}, similarly to temperature, it also controls the diversity of the output, during the sequence generation, at each step, the model sample from the top K most probable textual tokens, higher value of K means higher diversity but also less accuracy
+    \item \textit{\textbf{Top P}} in a different way from the previous, it controls the balance between accuracy and diversity, at each step, for the sampling are chosen the smallest number of tokens that have a cumulative probability greater or equal to P
+     \item \textit{\textbf{Num Beam}} it controls the number of sequence that the model maintains at each step, an higher number can lead to more accurate solution. Basically at every iteration the algorithm try to combine to the current sequences with all the possible words, after doing that, the probability of all the new sequences is computed and the $Num Beam$ most probable sequences are kept for the following step
     
 \end{itemize}
-
 
 \section{Results}
 \subsection{Numerical Results}
 \subsubsection{NLQ task}
-The metrics that we took into consideration to compare the results we obtained are the following:
+\hspace{1cm} \\
+The metrics that we took into consideration to compare the obtained results are the following:
 \begin{itemize}
     \item \textit{\textbf{IoU}}, Intersection over Union(IoU), it is the proportion between the intersection and the union of the ground-truth and predicted intervals\\
     \begin{equation}
         IoU = \frac{\text{PredictedInterval} \cap \text{Ground-TruthIntverval}}{\text{PredictedInterval} \cup \text{Ground-TruthIntverval}}
     \end{equation}
-    \item \textit{\textbf{r@k}}, Recall at rank k (r@k) is used to measure how high the correct interval is positioned in the ranking of a prediction. For example, r@1 indicates the percentage of predictions where the correct interval is ranked as the most probable solution. This metric accounts for the fact that, for each query, multiple intervals may be identified as possible solutions, and these intervals are ranked based on how well the model considers them to match the query, rather than purely on probability 
+    \item \textit{\textbf{r@k}}, Recall at rank k (r@k) is used to measure how high the correct interval is positioned in the ranking of a prediction. %For example, r@1 indicates the percentage of predictions where the correct interval is ranked as the most probable solution.
+    This metric is usefull because, for each query, multiple intervals are identified as possible solutions, and these intervals are ranked based on how well the model considers them to match the query
 \end{itemize}
 
 \begin{table}[h]
@@ -214,11 +222,11 @@ VSLNet* & EgoVlp & 3.05 & 8.36 & 1.21 & 4.34 \\
 \captionsetup{font=footnotesize}
 \caption*{VSLNet* is the version that uses GloVe as encoder instead of BERT.}
 \end{table}
-From the table, for the networks that use the BERT encoder, we can see that both VSLNet and VSLBase, which use Omnivore features and EgoVlp features as pre-extracted features, perform better than VSLNet using SlowFast features. It is important to note that this improvement could also be due to updates in annotations and features since the publication of the original baseline in the paper.
+From the table, considering the cases in which the BERT encoder is used, we can notice that both VSLNet and VSLBase, using Omnivore and EgoVLP as pre-extracted features, perform better than VSLNet using SlowFast. It is important to specify that this improvement could also be due to the fact that annotations and features might have been updated since the publication of the original baseline in the paper.
 \\
 In particular, VSLNet with EgoVlp features significantly outperforms the others when we consider $IoU = 0.3$ and $r@1$, as well as when $IoU = 0.5$ and $r@5$.
 \\
-networks that do not use BERT as an encoder perform significantly worse than those that do. This could be because the BERT encoder is a more sophisticated model that also takes into account the context in which words are used
+Models that do not use BERT as an encoder perform significantly worse than those that do. This could be because the BERT encoder is more sophisticated, indeed, it also takes into account the context in which words are used.
 
 
 
@@ -227,16 +235,17 @@ networks that do not use BERT as an encoder perform significantly worse than tho
 
 
 \subsubsection{Extension evaluation}
+\hspace{1cm} \\
 For the VLM task evaluation we decided to use the following metrics:
 \begin{itemize}
-    \item \textit{\textbf{R-F1}}, ROUGE-1 F1 Score(R-F1) is related to to overlap between the predicted sentence and the ground-truth. Computed as $F1-Score$ using the precision and recall computed in this way: 
+    \item \textit{\textbf{R-F1}}, ROUGE-1 F1 Score(R-F1) is related to to overlap between the predicted sentence and the ground-truth. Computed as $F1-Score$ using the following precision and recall: 
     \begin{equation*}
         Precision = \frac{\text{\small Number of overlapping words}}{\text{ \small Total words in the prediction}}
     \end{equation*}
      \begin{equation}
         Recall = \frac{\text{\small Number of overlapping words}}{\text{\small Total words in the ground truth}}
     \end{equation}
-    \item \textit{\textbf{METEOR}},The METEOR score is a more comprehensive metric than ROUGE. In addition to recall and precision, it incorporates an alignment component that measures how well the predictions align with the ground truth. Like ROUGE, METEOR produces a score between 0 and 1. However, precision and recall in METEOR are computed after an alignment process that includes stemming and synonym matching
+    \item \textit{\textbf{METEOR}},The METEOR score is a more comprehensive metric than ROUGE. In addition to recall and precision, it incorporates an alignment component that measures how well the predictions align with the ground truth. Like ROUGE, METEOR produces a score between 0 and 1, however, precision and recall in METEOR are computed after an alignment process that includes stemming and synonyms matching
     \item \textit{\textbf{B-F1}}, The BERT F1 Score(B-F1) is as an advanced evaluation metric because it incorporates contextual understanding. It utilizes pre-trained contextual embeddings from BERT to compare the embeddings of the prediction sentence and ground truth sentence, measuring their similarity with cosine similarity. After this process it is possible to compute the recall, precision and F1 score(B-F1)
 \end{itemize}
 
@@ -254,20 +263,20 @@ Temperature 0.7 & 0.0528 & 0.0472 & 0.8113 \\
 \end{tabular}
 \end{table}
 
-In \ref{tab:comparisonSCore} we show the results obtained in the score, using models with some parameters variations.
+In table \ref{tab:comparisonSCore} we show the score obtained, using models with some parameters variations.
 The default parameter were:
-\begin{itemize}
+\begin{itemize}[before=\footnotesize]
     \item $Temperature = 1.0$
     \item $Num Beam = 1$
     \item $Top K = 2$
     \item $Top P = 0.9$
     \item $Max new tokens = 100$
 \end{itemize}
-In the table, each configuration name represents the parameter we modified from the default settings to generate new predictions and obtain the corresponding scores.
+In the table, each configuration name represents the parameter we modified from the default settings to generate the new predictions and obtain the corresponding scores.
 We have done multiple test on the parameter mentioned in [citare sezione].Here we present the results obtained with the default parameters, the configuration that performed the worst, and the configuration that was closest to the default that performed the best.\\
-It is notable that for both R-F1 and Meteor metrics, no configuration has achieved results as good as those obtained with the default parameters. This could be attributed to the fact that the ground truth used for reference was annotated by us, indicating that the default configuration produced predictions most similar to human language. When considering B-F1 scores, they are generally higher overall and closer to each other across configurations. One explanation could be the BERT score ability to assign high scores even when predictions and ground-truths are somewhat dissimilar. This could happen because B-F1 assesses similarity also based on semantic similarity, meaning that sentences can be considered similar if they contain words from the same semantic domain, regardless of exact phrasing.
+It is notable that for both R-F1 and Meteor metrics, no configuration has achieved results as good as those obtained with the default parameters. This could be attributed to the fact that the ground truth used for reference was annotated by us, indicating that the default configuration produced predictions most similar to human language. When we examine the B-F1 scores, we see that they are generally higher and more consistent across different configurations, one explanation could be the BERT score's ability to assign high scores even when predictions and ground truths are quite dissimilar. A possible explanation, from our point of view, is that this could happen because B-F1 assesses similarity based on semantic similarity. Therefore, sentences can be considered similar if they contain words from the same semantic domain, regardless of exact phrasing.
 \\
-The previous consideration was more focuse on the sentences semantic, if we talk about the accuracy of the predictions made by Video-LLaVA, the results is [mettere risultato]. To do this evaluation we had to manually chek if the answers was correct, since the scores value doesn't reflect the correctness. The total number of predictions was 50 we split them based on their category, and in [riferimento al grafico] it is possible to see the performance of the proposed approach on different categories.
+The previous consideration was more focused on the sentences semantic, if we talk about the accuracy of the predictions made by Video-LLaVA, the results is [mettere risultato]. To do this evaluation we had to manually chek if the answers was correct, since the scores values doesn't reflect the correctness. The total number of predictions was 50, we split them based on their category, and in [riferimento al grafico] it is possible to see the performance of the proposed approach among different categories.
 
 \subsection{Qualitative Results}
 In our study, we aimed to evaluate the performance of a large language visual model designed to interpret questions and generate answers from visual content. Using qualitative analysis methods, (including detailed case studies), we assessed the model's ability to generate accurate, coherent, and contextually relevant descriptions. The qualitative results indicate that the model performs well in scenarios requiring descriptive answers, providing insights closely aligned with manually annotated responses.
