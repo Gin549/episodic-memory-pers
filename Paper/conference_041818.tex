@@ -281,6 +281,16 @@ We have done multiple test on the parameter mentioned in [citare sezione].Here w
 It is notable that for both R-F1 and Meteor metrics, no configuration has achieved results as good as those obtained with the default parameters. This could be attributed to the fact that the ground truth used for reference was annotated by us, indicating that the default configuration produced predictions most similar to human language. When we examine the B-F1 scores, we see that they are generally higher and more consistent across different configurations, one explanation could be the BERT score's ability to assign high scores even when predictions and ground truths are quite dissimilar. A possible explanation, from our point of view, is that this could happen because B-F1 assesses similarity based on semantic similarity. Therefore, sentences can be considered similar if they contain words from the same semantic domain, regardless of exact phrasing.
 \\
 The previous consideration was more focused on the sentences semantic, if we talk about the accuracy of the predictions made by Video-LLaVA, the results is [mettere risultato]. To do this evaluation we had to manually chek if the answers was correct, since the scores values doesn't reflect the correctness. The total number of predictions was 50, we split them based on their category, and in [riferimento al grafico] it is possible to see the performance of the proposed approach among different categories.
+As we studied the rates of success and failures of our model with the parameters set to their default values the meaningful results are the following: \\
+\begin{itemize}[before=\footnotesize]
+    \item overall, we have a 40% success rate,  with 20 correctly answered queries over a total of 50 queries
+    \item for the Objects category we have a 36% success rate, with 15 correctly answered queries over a total of 42
+    \item for the Place category we have a 67% success rate, with 4 correctly answered queries over a total of 6
+    \item for the People category we have a 100% success rate, but on only 2 queries
+   
+\end{itemize}
+
+
 
 \subsection{Qualitative Results}
 In our study, visualizing the input video plays a crucial role in evaluating the model's ability to generate coherent answers. Below, we present some of the most intriguing qualitative results. These findings suggest that the model excels in scenarios requiring descriptive answers, offering insights that closely match manually annotated responses.
