@@ -12,6 +12,7 @@
 \usepackage{caption}
 \usepackage{booktabs}
 \usepackage{multirow}
+\usepackage{animate}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -62,9 +63,9 @@ The task can be approached in two ways: as a video segment matching problem, whe
 
 The NLQ challenge, along with related video-language question answering tools, has gained considerable attention from the research community. However, the task presents several technical challenges. Firstly, videos may be of arbitrary length, which raises the question of how to build models that can reason over a long temporal range. Secondly, integrating video and text modalities remains a complex issue.
 
-In this paper, we propose an approach that first solves the NLVL problem by extracting the start and end boundaries of the answer span from the video. Then, we exploit a Video Question Answering (VideoQA) model to generate a natural language answer from the extracted clip.
+In this paper, we propose an approach that first solves the NLVL problem by extracting the start and end boundaries of the answer span from the video. Then, we exploit a Large Language Visual Model to generate a natural language answer from the extracted clip.
 
-As a baseline, we first address the NLVL task with a standard span-based QA framework for video input named VSLBase, comparing the outcomes obtained using different sets of pre-extracted features. We then propose an improved version, VSLNet, implemented with different encoders to assess the most effective version. Finally, we utilize an open-source model, Video-LLaVA, to generate answers in natural language.
+As a baseline, we first address the NLVL task with a standard span-based QA framework for video input named VSLBase, whose architecture is presented in section 4, comparing the outcomes obtained using different sets of pre-extracted features. We then propose an improved version, VSLNet, implemented with different encoders to assess the most effective version. Finally, we utilize an open-source model, Video-LLaVA, detailed in section 5B. This model generates natural language answers to the posed questions, which are then evaluated both quantitatively and qualitatively.
 
 \section{Related work}
 
@@ -101,28 +102,31 @@ Our focus is on the Episodic memory challenge, which aims to evaluate and advanc
     \item \textbf{Detailed timestamps}: since in ego4d videos are divided into shorter segments called clips, annotations specify start and end timestamps for segments within individual video clips and in relation to the entire video.
     \item \textbf{Language queries}: Each annotation includes formulated questions aimed at extracting specific information from the video content.
     \item \textbf{Temporal information}: Queries are accompanied by temporal data indicating their occurrence within both the clip and the overall video, along with the “response track” in the video.
-    \item \textbf{Template descriptions}: Annotations provide a set of 13 template questions, with designated slots for variables such as objects and actions, meant to span things a user might ask to augment their memory. In figure 1 we report the distribution of queries per template.
+    \item \textbf{Template descriptions}: Annotations provide a set of 13 template questions, with designated slots for variables (X, Y) such as objects and actions, meant to span things a user might ask to augment their memory. In figure 1 we report the distribution of queries per template.
     \item \textbf{Raw tags}: Included to capture the essence of the queries, aiding in processing and analysis of the annotated data.
 \end{itemize}
 
 \begin{figure}[h]
-\includegraphics[width=0.4\textwidth]{Figure1.pdf} % adjust width as needed
+\centering
+\includegraphics[width=0.48\textwidth]{Figure1.pdf} % adjust width as needed
 \caption{Caption}
 \label{fig:figure2}
 \end{figure}
 
-Analyzing the data retrieved through annotations yields valuable insights for our current task. Initially, we note that the average duration of clips is 522 seconds, with the majority lasting 480 seconds (or 8 minutes). Approximately 9.01\% of the dataset consists of short queries, defined as lasting four frames or less at a frame rate of 30 frames per second; these queries of approximately 0 seconds duration are excluded.
+Analyzing the data retrieved through annotations yields valuable insights for our current task. Initially, we note that the average duration of clips is 522 seconds, with the majority lasting 480 seconds (8 minutes). Approximately 9.01\% of the dataset consists of short queries, defined as lasting four frames or less at a frame rate of 30 frames per second; these queries of approximately 0 seconds duration are excluded.
 
-Another observation from plotting the distribution is the relative duration of each query compared to the total duration of its corresponding video clip. It's evident that most queries cover 2\% or less of the total clip duration. Additionally, the average response interval, when plotted, shows a value of 9.67 seconds.
+Another observation from plotting the distribution is the relative duration of each query compared to the total duration of its corresponding video clip. Notably, most queries encompass 2\% or less of the total clip duration. To support this finding, we analyzed the average response interval and found it to be 9.67 seconds.
 
 In Figure 2 reported below, we illustrate the distribution of the number of queries per video, suggesting an average of 15 queries per video.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.4\textwidth]{Figure2.pdf} % adjust width as needed
+\includegraphics[width=0.3\textwidth]{Figure2.pdf} % adjust width as needed
 \caption{Caption}
 \label{fig:figure2}
 \end{figure}
+
+Finally, it's intriguing to note the correlation between each query and specific scenarios depicted in the video. Particularly, a significant number of queries (exceeding 100) are focused on the following scenarios: indoor navigation (walking), carpentry, cleaning/laundry, various jobs within construction and renovation companies (such as director of work, tiler, plumber, electrician, handyman, etc.), car mechanics, and cooking.
 
 
 \section{Model architecture}
@@ -279,12 +283,37 @@ It is notable that for both R-F1 and Meteor metrics, no configuration has achiev
 The previous consideration was more focused on the sentences semantic, if we talk about the accuracy of the predictions made by Video-LLaVA, the results is [mettere risultato]. To do this evaluation we had to manually chek if the answers was correct, since the scores values doesn't reflect the correctness. The total number of predictions was 50, we split them based on their category, and in [riferimento al grafico] it is possible to see the performance of the proposed approach among different categories.
 
 \subsection{Qualitative Results}
-In our study, we aimed to evaluate the performance of a large language visual model designed to interpret questions and generate answers from visual content. Using qualitative analysis methods, (including detailed case studies), we assessed the model's ability to generate accurate, coherent, and contextually relevant descriptions. The qualitative results indicate that the model performs well in scenarios requiring descriptive answers, providing insights closely aligned with manually annotated responses.
-Notably, as illustrated in Figure [5d531ac1-010a-4e67-ba1a-96e485b14968], the model successfully identified the object in question (broccoli) despite a short clip that did not provide a clear answer. This performance surpassed human observers, who mistakenly identified the object as green peppers. By considering the entire video, it became evident that the correct identification was broccoli.
-To further validate the model’s capability in accurately identifying answers, Figure 2 demonstrates a scenario where the person recording the video interacts with another individual. In such cases, the model effectively furnishes a clear description of the interested subject.
+In our study, visualizing the input video plays a crucial role in evaluating the model's ability to generate coherent answers. Below, we present some of the most intriguing qualitative results. These findings suggest that the model excels in scenarios requiring descriptive answers, offering insights that closely match manually annotated responses.
 
-However, the model exhibits limitations in specific tasks, particularly in counting objects or identifying precise quantities. Figure [0ca4506c-962d-4cf1-aa6d-f8222f53dee6] exemplifies this, where the model was asked to detect the amount of oil poured into a pot. Since the oil was poured directly from the bottle, it was hard to provide a precise quantitation, nevertheless the predicted answer is clearly unfitting. Interestingly, adjusting certain parameters [specify parameters] led to the model providing a more accurate answer (e.g., "two tablespoons"), aligning closer with the actual observation in the clip. The inaccuracy in counting extends to other queries, with additional examples available at the following link [LINK].
-Additionally, we observed that the model is often incorrect when answering yes/no questions. We highlight this issue in figure [53c86be4-190d-4410-8750-179a7edc70b3], where the model provides a wrong answer despite the video being unmistakable. One assumption is that in these cases, when the model is forced to choose between two words for the first token, the probability to choose the wrong one is higher. This can be due to the binary choice limitation, where any slight bias can significantly impact the final decision. Moreover, the model's internal probability distribution for 'yes' and 'no' might be skewed, leading to systematic errors. Ambiguity in video interpretation and overfitting to training data, where certain answers are more frequent, could further contribute to this issue.
+Notably, as illustrated in Figure X, the model successfully identified the object in question (broccoli) despite a short clip that did not provide a clear answer. This performance surpassed our observation, since we mistakenly identified the object as green peppers. By considering the entire video, it became evident that the correct identification was the one provided by the algorithm.
+
+To further validate the model’s capability in accurately identifying answers, you can explore instances where the model correctly identifies the subjects of interest by visiting the following link: [LINK].
+
+\begin{figure}[ht]
+  \centering
+  \animategraphics[autoplay,loop, height=4.5cm]{12}{53c86be4-190d-4410-8750-179a7edc70b3_}{001}{025}
+  \caption{Prova}
+  \label{fig:animation}
+\end{figure}
+
+However, the model exhibits limitations in specific tasks, particularly in counting objects or identifying precise quantities. Figure X exemplifies this: the model was asked to identify the number of fuse holders picked from a box. The model erroneously counted two fuse holders, whereas the ground truth indicated six. This discrepancy may be attributed to the fact that the individual in the video is holding only two fuse holders in their left hand at the end of the video, and the algorithm may struggle with maintaining an accurate understanding of the temporal sequence of actions.
+The inaccuracy in counting extends to other queries, with additional examples available at the link mentioned above.
+
+\begin{figure}[ht]
+  \centering
+  \animategraphics[autoplay,loop, height=4.5cm]{12}{53c86be4-190d-4410-8750-179a7edc70b3_}{001}{025}
+  \caption{Prova}
+  \label{fig:animation}
+\end{figure}
+
+Additionally, we observed that the model is often incorrect when answering yes/no questions. We highlight this issue in figure X, where the model provides a wrong answer despite the video being fairly clear. One assumption is that in these cases, when the model is forced to choose between two words for the first token, the probability to choose the wrong one is higher. This can be due to the binary choice limitation, where any slight bias can significantly impact the final decision. Moreover, the model's internal probability distribution for 'yes' and 'no' might be skewed, leading to systematic errors. Ambiguity in video interpretation and overfitting to training data, where certain answers are more frequent, could further contribute to this issue.
+
+\begin{figure}[ht]
+  \centering
+  \animategraphics[autoplay,loop, height=4.5cm]{12}{53c86be4-190d-4410-8750-179a7edc70b3_}{001}{025}
+  \caption{Prova}
+  \label{fig:animation}
+\end{figure}
 
 
 
