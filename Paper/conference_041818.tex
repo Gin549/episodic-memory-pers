@@ -160,11 +160,11 @@ The pipeline we used is shown in fig.\ref{fig:fullPipeline}, and for the VLM tas
 
 \subsection{Video-LLava}
 Video LLava is a Large Vision-Language model, so given a query and a visual input, its task is to produce a textual answer.  It is capable of simultaneously handling both image and videos. Many existing approaches encode images and videos into separate input spaces, but this can be a limitation. Instead, this model uses a unified visual representation for both modalities within the language feature space.\\
-Also, in paper [citare paper 4] it is shown that unified visual representation befits LLMs in learning both images and videos when compared to models specifically designed for one of the modalities.
+Also, in paper \cite{b2} it is shown that unified visual representation befits LLMs in learning both images and videos when compared to models specifically designed for one of the modalities.
 \subsubsection{Model Structure}
-The first step consists in extracting visual features (from videos or images). For this purpose, LanguageBind encoders are used [citare paper]. These encoders can map different modalities into the textual feature space. At the end of this process, we obtain a unified visual representation.\\ 
+The first step consists in extracting visual features (from videos or images). For this purpose, LanguageBind encoders are used \cite{b3}. These encoders can map different modalities into the textual feature space. At the end of this process, we obtain a unified visual representation.\\ 
 The next step is to use a shared projection layer to project the features, then they are in the same space with the tokenized textual queries. We can then input all the data into a large LLM to get the answer.\\
-A key point of Video LLaVA is the alignment of visual modalities before projection. LanguageBind naturally aligns image and language in shared feature space using pretrained encoders. To align video representation to the language space it uses 3 millions video-text pairs from VIDAL-10M[citare paper]. Therefore, before projection, data from both modalities are in a unified feature space.
+A key point of Video LLaVA is the alignment of visual modalities before projection. LanguageBind naturally aligns image and language in shared feature space using pretrained encoders. To align video representation to the language space it uses 3 millions video-text pairs from VIDAL-10M\cite{b3}. Therefore, before projection, data from both modalities are in a unified feature space.
 
 \begin{figure*}
   \includegraphics[width=\textwidth,height=4cm]{ProposedPipeLine-removebg-preview.png}
@@ -268,7 +268,7 @@ Temperature 0.7 & 0.0528 & 0.0472 & 0.8113 \\
 \end{table}
 
 In table \ref{tab:comparisonSCore} we show the score obtained, using models with some parameters variations.
-The default parameter were:
+The default parameters were:
 \begin{itemize}[before=\footnotesize]
     \item $Temperature = 1.0$
     \item $Num Beam = 1$
@@ -277,7 +277,7 @@ The default parameter were:
     \item $Max new tokens = 100$
 \end{itemize}
 In the table, each configuration name represents the parameter we modified from the default settings to generate the new predictions and obtain the corresponding scores.
-We have done multiple test on the parameter mentioned in [citare sezione].Here we present the results obtained with the default parameters, the configuration that performed the worst, and the configuration that was closest to the default that performed the best.\\
+We have done multiple test on the parameter mentioned in \ref{Parameters}.Here we present the results obtained with the default parameters, the configuration that performed the worst, and the configuration that was closest to the default that performed the best.\\
 It is notable that for both R-F1 and Meteor metrics, no configuration has achieved results as good as those obtained with the default parameters. This could be attributed to the fact that the ground truth used for reference was annotated by us, indicating that the default configuration produced predictions most similar to human language. When we examine the B-F1 scores, we see that they are generally higher and more consistent across different configurations, one explanation could be the BERT score's ability to assign high scores even when predictions and ground truths are quite dissimilar. A possible explanation, from our point of view, is that this could happen because B-F1 assesses similarity based on semantic similarity. Therefore, sentences can be considered similar if they contain words from the same semantic domain, regardless of exact phrasing.
 \\
 The previous consideration was more focused on the sentences semantic, if we talk about the accuracy of the predictions made by Video-LLaVA, the results is [mettere risultato]. To do this evaluation we had to manually chek if the answers was correct, since the scores values doesn't reflect the correctness. The total number of predictions was 50, we split them based on their category, and in [riferimento al grafico] it is possible to see the performance of the proposed approach among different categories.
@@ -349,18 +349,9 @@ For papers published in translation journals, please give the English
 citation first, followed by the original foreign-language citation \cite{b6}.
 
 \begin{thebibliography}{00}
-\bibitem{b1} Santhosh Kumar Ramakrishnan and Ziad Al-Halah and Kristen Grauman, ``NaQ: Leveraging Narrations as Queries to Supervise Episodic Memory'', 2023.
-\bibitem{b2} Jiyang Gao and Chen Sun and Zhenheng Yang and Ram Nevatia, ``TALL: Temporal Activity Localization via Language Query, '' 2017.
-\bibitem{b3} Hao Zhang and Aixin Sun and Wei Jing and Joey Tianyi Zhou, ``Span-based Localizing Network for Natural Language Video Localization'' 2020.
-\bibitem{b4} Chen, Jingyuan and Ma, Lin and Xinpeng, Chen and Jie, Zequn and Luo, Jiebo, ``Localizing Natural Language in Videos'' 2019.
-
-\bibitem{b5} Lisa Anne Hendricks and Oliver Wang and Eli Shechtman and Josef Sivic and Trevor Darrell and Bryan Russell, ``Localizing Moments in Video with Temporal Language'' 2018.
-
-\bibitem{b6} Deyao Zhu and Jun Chen and Xiaoqian Shen and Xiang Li and Mohamed Elhoseiny, ``MiniGPT-4: Enhancing Vision-Language Understanding with Advanced Large Language Models'' 2023.
-
-\bibitem{b7} Qinghao Ye, Haiyang Xu, Guohai Xu, Jiabo Ye, Ming Yan, Yiyang Zhou, Junyang Wang, Anwen Hu, Pengcheng Shi, Yaya Shi, Chenliang Li, Yuanhong Xu, Hehong Chen, Junfeng Tian, Qi Qian, Ji Zhang, Fei Huang, Jingren Zhou, ``mPLUG-Owl: Modularization Empowers Large Language Models with Multimodality'' 2023.
-
-
+\bibitem{b1} Zhang, Hao, et al. "Span-based Localizing Network for Natural Language Video Localization." Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics. 2020.
+\bibitem{b2} Lin, B., Zhu, B., Ye, Y., Ning, M., Jin, P., & Yuan, L. (2023). Video-llava: Learning united visual representation by alignment before projection. arXiv preprint arXiv:2311.10122.
+\bibitem{b3}Bin Zhu, Bin Lin, Munan Ning, Yang Yan, Jiaxi Cui, HongFa Wang, Yatian Pang, Wenhao Jiang, Junwu Zhang, Zongwei Li, et al. Languagebind: Extending video-language pretrain- ing to n-modality by language-based semantic alignment. arXiv preprint arXiv:2310.01852, 2023.
 
 \end{thebibliography}
 \vspace{12pt}
