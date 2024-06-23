@@ -45,14 +45,8 @@ email address}
 \maketitle
 
 \begin{abstract}
-This document is a model and instructions for \LaTeX.
-This and the IEEEtran.cls file define the components of your paper [title, text, heads, etc.]. *CRITICAL: Do Not Use Symbols, Special Characters, Footnotes, 
-or Math in Paper Title or Abstract.
+In this paper, we address the challenge of localizing relevant video segments in response to natural language queries and subsequently generating corresponding textual answers. Our proposed pipeline integrates two specialized models for distinct stages of the process. For Natural Language Video Localization (NLVL), we employ VSLNet, an enhanced version of the VSLBase architecture. VSLNet relies on a multi-modal approach to integrate visual and textual information, producing the temporal boundaries of the relevant video segment. A key feature of VSLNet is its Query-Guided Highlighting (QGH) component, which refines the search for matching video segments, resulting in more precise localization. For answer generation, we deploy a novel Large Vision-Language model, Video LLaVA, which significantly enhances the comprehension capabilities of large vision-language models for both images and videos. This model takes as input the video clip based on the predicted boundaries and the textual query. Video LLaVa integrates visual representations into the textual feature space, enabling the large language model (LLM) to generate effective textual answers. We evaluate our approach on the Ego4D dataset, demonstrating robust performance through both quantitative and qualitative assessments.
 \end{abstract}
-
-\begin{IEEEkeywords}
-component, formatting, style, styling, insert
-\end{IEEEkeywords}
 
 \section{Introduction}
 In recent years, the scientific focus has shifted towards the next generation of mobile computing—wearable devices. This shift has spurred significant advancements in egocentric vision. Among its various applications, first-person or “egocentric” perception using wearable cameras has the potential to alleviate cognitive overload and provide users with a superhuman personal episodic memory. By capturing and indexing what we see in meaningful and easily accessible ways, these devices could transform how we interact with our environment.
