@@ -139,6 +139,30 @@ The model architecture comprises several key components:
 This initial implementation of VSLBase was significantly improved through two major enhancements: the integration of the QGH module and the BERT encoder. This enhancement model is known as VSLNet.
 The Query-Guided Highlighting (QGH)  has been primarily introduced to better redefine the alignment between the query and the video segments; it essentially leverages additional context from the query to dynamically adjust the attention weights and highlights the video segments most relevant to the query. This mechanism results in more accurate predictions of the start and end times for the relevant video segments. On the other hand, the substitution of the Glove embeddings to the BERT (Bidirectional Encoder Representations from Transformers) encoder allows for a deeper understanding of the query and subsequently a more context-aware representation of it. So now, differently from the previous architecture, the model can understand the context of the query, rather than the individual words only.
 
+\subsection{Pre-trained Features}
+Due to the inaccessibility of the full 3,670 hours of Ego4D videos, we trained the model on precomputed features in a sliding window manner. Specifically, at each extraction point, the model processes the next window of size W frames (e.g., at frame i, the model sees features from frames i to i + W - 1). This window begins at frame 0 and slides with a specified stride until the end of the video [cite website]. We utilize slowfast8x8 as our baseline, and compare the outcomes with two other sets of precomputed features. A detailed overview of these features is presented in the table below:
+
+
+\begin{table}[h]
+\centering
+\caption{Pre-computed Features for Ego4D}
+\label{tab:precomputedfeatures}
+\setlength{\tabcolsep}{4pt} 
+\renewcommand{\arraystretch}{1.2}
+\resizebox{\linewidth}{!}{
+\large
+\begin{tabular}{@{}p{3cm}p{3cm}p{3cm}cc@{}}
+\toprule
+Feature Type & Dataset(s) Trained On & Model Arch & Window Size (W) & Stride \\
+\midrule
+SlowFast & Kinetics400 & SlowFast8x8\hspace{0.1cm}(R101 backbone) & 32 & 16 \\
+Omnivore video & Kinetics400/ ImageNet-1K & Omnivore (Swin\hspace{0.1cm}L); video head & 32 & 16 \\
+EgoVLP & EgoClip/ HowTo100M & Frozen & 4 & 4 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
 
 \section{Proposed Approach}
 \subsection{Task}
