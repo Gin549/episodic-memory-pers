@@ -13,6 +13,7 @@
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{animate}
+\usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue]{hyperref}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -45,7 +46,7 @@ email address}
 \maketitle
 
 \begin{abstract}
-In this paper, we address the challenge of localizing relevant video segments in response to natural language queries and subsequently generating corresponding textual answers. Our proposed pipeline integrates two specialized models for distinct stages of the process. For Natural Language Video Localization (NLVL), we employ VSLNet, an enhanced version of the VSLBase architecture. VSLNet relies on a multi-modal approach to integrate visual and textual information, producing the temporal boundaries of the relevant video segment. A key feature of VSLNet is its Query-Guided Highlighting (QGH) component, which refines the search for matching video segments, resulting in more precise localization. For answer generation, we deploy a novel Large Vision-Language model, Video LLaVA, which significantly improves the ability of large language models to understand images and videos simultaneously. This model processes the textual query along with the shortened video, which has been clipped according to the previously predicted boundaries. Video LLaVa integrates visual representations into the textual feature space, enabling the large language model (LLM) to generate effective textual answers. We evaluate our approach on the Ego4D dataset, demonstrating robust performance through both quantitative and qualitative assessments.
+In this paper, we address the challenge of localizing relevant video segments in response to natural language queries and subsequently generating corresponding textual answers. Our proposed pipeline integrates two specialized models for distinct stages of the process. For Natural Language Video Localization (NLVL), we employ VSLNet, an enhanced version of the VSLBase architecture. VSLNet relies on a multi-modal approach to integrate visual and textual information, producing the temporal boundaries of the relevant video segment. A key feature of VSLNet is its Query-Guided Highlighting (QGH) component, which refines the search for matching video segments, resulting in more precise localization. For answer generation, we deploy a novel Large Vision-Language model, Video LLaVA, which significantly enhances the comprehension capabilities of large vision-language models for both images and videos. This model takes as input the video clip based on the predicted boundaries and the textual query. Video LLaVa integrates visual representations into the textual feature space, enabling the large language model (LLM) to generate effective textual answers. We evaluate our approach on the Ego4D dataset, demonstrating robust performance through both quantitative and qualitative assessments.
 \end{abstract}
 
 \section{Introduction}
@@ -312,21 +313,11 @@ As we studied the rates of success and failures of our model with the parameters
 
 
 \subsection{Qualitative Results}
-In our study, visualizing the input video plays a crucial role in evaluating the model's ability to generate coherent answers. Below, we present some of the most intriguing qualitative results. These findings suggest that the model excels in scenarios requiring descriptive answers, offering insights that closely match manually annotated responses.
+In our study, visualizing the input video can help assessing the model's capacity to provide well-reasoned responses. Below, we present some of the most intriguing qualitative results we obtained. These results imply that the model performs well in cases that call for descriptive responses, providing insights that are quite similar to responses that have been manually annotated.
 
-Notably, as illustrated in Figure X, the model successfully identified the object in question (broccoli) despite a short clip that did not provide a clear answer. This performance surpassed our observation, since we mistakenly identified the object as green peppers. By considering the entire video, it became evident that the correct identification was the one provided by the algorithm.
+A first example is illustrated in Figure X, the model successfully identified the object in question (broccoli) despite a brief clip that lacked clear information. In this case, the model's response surpassed our observation, since we mistakenly identified the object as green peppers. If considering the entire video, it becomes evident that the correct identification is the one provided by the algorithm.
 
-To further validate the model’s capability in accurately identifying answers, you can explore instances where the model correctly identifies the subjects of interest by visiting the following link: [LINK].
-
-\begin{figure}[ht]
-  \centering
-  \animategraphics[autoplay,loop, height=4.5cm]{12}{53c86be4-190d-4410-8750-179a7edc70b3_}{001}{025}
-  \caption{Prova}
-  \label{fig:animation}
-\end{figure}
-
-However, the model exhibits limitations in specific tasks, particularly in counting objects or identifying precise quantities. Figure X exemplifies this: the model was asked to identify the number of fuse holders picked from a box. The model erroneously counted two fuse holders, whereas the ground truth indicated six. This discrepancy may be attributed to the fact that the individual in the video is holding only two fuse holders in their left hand at the end of the video, and the algorithm may struggle with maintaining an accurate understanding of the temporal sequence of actions.
-The inaccuracy in counting extends to other queries, with additional examples available at the link mentioned above.
+To confirm the efficiency of the model, you can invastigate additional queries, where the model correctly identifies the subjects of interest, at the following link: [\href{https://github.com/Gin549/episodic-memory-pers/tree/main/qualitative_results}{LINK}].
 
 \begin{figure}[ht]
   \centering
@@ -335,7 +326,17 @@ The inaccuracy in counting extends to other queries, with additional examples av
   \label{fig:animation}
 \end{figure}
 
-Additionally, we observed that the model is often incorrect when answering yes/no questions. We highlight this issue in figure X, where the model provides a wrong answer despite the video being fairly clear. One assumption is that in these cases, when the model is forced to choose between two words for the first token, the probability to choose the wrong one is higher. This can be due to the binary choice limitation, where any slight bias can significantly impact the final decision. Moreover, the model's internal probability distribution for 'yes' and 'no' might be skewed, leading to systematic errors. Ambiguity in video interpretation and overfitting to training data, where certain answers are more frequent, could further contribute to this issue.
+However, the model presents limitations in specific tasks, particularly in counting objects or when it is asked to provide precise quantities. Figure X exemplifies this: the model was inquired to identify the exact number of fuse holders picked from a box. The ground truth indicated six fuse holders, but the model mistakenly numbered two. This discrepancy may be attributed to the fact that the individual in the video is holding only two fuse holders in their left hand at the end of the video, and the algorithm may struggle with maintaining a precise knowledge of the temporal sequence of activities.
+The inaccuracy in counting extends to several other queries, with additional examples available at the link mentioned above.
+
+\begin{figure}[ht]
+  \centering
+  \animategraphics[autoplay,loop, height=4.5cm]{12}{53c86be4-190d-4410-8750-179a7edc70b3_}{001}{025}
+  \caption{Prova}
+  \label{fig:animation}
+\end{figure}
+
+Furthermore, we observed that the model frequently provides erroneous answers to yes/no questions. We highlight this issue in figure X, where the model provides a wrong answer despite the video clearly showing the action. One assumption is that in these situations, when the model has to choose between two options for the initial token, there is a greater chance that it will select the incorrect term. This can be due to the limitation of a binary choice, where any slight bias can significantly impact the final decision. Systematic mistakes may also result from a skewed internal probability distribution for "yes" and "no" tokens in the training data.
 
 \begin{figure}[ht]
   \centering
