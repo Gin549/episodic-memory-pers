@@ -194,11 +194,11 @@ A key point of Video LLaVA is the alignment of visual modalities before projecti
 \end{figure*}
 
 \subsubsection{Training pipeline}
-After obtaining the tokenized version of the textual input and visual signals input, the training consists in maximizing the likelyhood, so that the model can achieve multi-modal understanding capabilities.
+After obtaining the tokenized version of the textual input and visual signals input, the training consists in an optimization problem, that lead the model to achieve multi-modal understanding capabilities.
 This means that for each prediction in the training set, the objective is to maximize the probability of returning the ground-truth output based on the given input textual and visual tokens. \\
-On of the strengths of the model is the simultaneous training on images and videos, with every batch containing both types of data.\\
+An important point to note at this stage, which is also one of the model's strengths, is the simultaneous training on both images and videos, with every batch containing both types of data.\\
 In the first stage of training, the main focus is on associating the textual data with visual data using a extensive image/video-text pair dataset.\\
-The second phase is the instruction tuning, the objective is still maximizing the likelihood but with the addition of a context variable. The context is the combination of the previous queries and answers.\\
+The second phase is the instruction tuning, the objective is still an optimization problem but with the addition of a context variable. The context is the combination of the previous queries and answers.\\
 Thus, at this stage, this model is trained to answer to more than one instruction. It must produce an output for several sequential and more complex queries, taking into consideration the entire conversation.
 (Non mi sembra importante ma at this stage also the LLM are involved in training)
 
@@ -206,15 +206,16 @@ Thus, at this stage, this model is trained to answer to more than one instructio
 During our tests we also observed the behaviour of the model bychanging some parameters related to output, the tested parameters were:
 \\
 \begin{itemize}
-    \item \textit{\textbf{Max Length}}, it controls the lenght of the produced answer
-    \item \textit{\textbf{Temperature}}, it controls the "creativity" of the answer, for high values, at each step, it flattens the probability distribution used to select the next word, so it can happen that the model selects also less probable words during the sequence generation, this could results in more creative but also less accurate answer
-    \item \textit{\textbf{Top K}}, similarly to temperature, it also controls the diversity of the output, during the sequence generation, at each step, the model sample from the top K most probable textual tokens, higher value of K means higher diversity but also less accuracy
-    \item \textit{\textbf{Top P}} in a different way from the previous, it controls the balance between accuracy and diversity, at each step, for the sampling are chosen the smallest number of tokens that have a cumulative probability greater or equal to P
-     \item \textit{\textbf{Num Beam}} it controls the number of sequence that the model maintains at each step, an higher number can lead to more accurate solution. Basically at every iteration the algorithm try to combine to the current sequences with all the possible words, after doing that, the probability of all the new sequences is computed and the $Num Beam$ most probable sequences are kept for the following step
+    \item \textit{\textbf{Max Length}}: it controls the lenght of the produced answer
+    \item \textit{\textbf{Temperature}}: it controls the "creativity" of the answer, for high values, at each step, it flattens the probability distribution used to select the next word, so it can happen that the model selects also words with a lower probability score during the sequence generation, this could results in more creative but also less accurate answer
+    \item \textit{\textbf{Top K}}: similarly to temperature, it also controls the diversity of the output, during the sequence generation, at each step, the model sample from the top K most probable textual tokens, higher value of K means higher diversity but also less accuracy
+    \item \textit{\textbf{Top P}}: it controls the balance between accuracy and diversity, at each step, for the sampling are chosen the smallest number of tokens that have a cumulative probability greater or equal to P
+     \item \textit{\textbf{Num Beam}}: it controls the number of sequence that the model maintains at each step, an higher number can lead to more accurate solution. Basically at every iteration the algorithm try to combine to the current sequences with all the possible words, after doing that, the probability of all the new sequences is computed and the $Num Beam$ most probable sequences are kept for the following step
     
 \end{itemize}
 
 \section{Results}
+In this section, we discuss the results obtained by our proposed pipeline. The results are divided into two parts, the first one presents the numerical evaluation of the NLQ task and the scores obtained by the textual answers produced by VideoLLaVA on several tests. The second part is a qualitative assessment, as it is not possible to judge the results of textual answers referring only to the score.\\
 \subsection{Numerical Results}
 \subsubsection{NLQ task}
 \hspace{1cm} \\
