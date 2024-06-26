@@ -1,0 +1,50 @@
+USER: Where did I put the wire? ASSISTANT: The wire was placed on the staircase.
+USER: What tool did I use to loosen the bolt? ASSISTANT: The tool used to loosen the bolt was
+USER: what did l put in the drawer ASSISTANT: L put a knife in the drawer.
+USER: How many spoons where in the cooking pot? ASSISTANT: There are three spoons in the cooking pot
+USER: what words were written on the box close to the wall? ASSISTANT: The box close to the wall has the word "
+USER: Who did i interact with when i queued in the supermarket ASSISTANT: When you queued in the supermarket, you
+USER: How many pies were in the brown plate? ASSISTANT: There were two pies in the brown plate.
+USER: What color is the glove i covered my face with? ASSISTANT: The glove you covered your face with is black
+USER: Where were the tissue rolls after I arranged them? ASSISTANT: The tissue rolls were placed in the to
+USER: Where was the genre book before I picked it? ASSISTANT: The genre book was on a bookshelf in
+USER: What did I pick from the closet ASSISTANT: From the closet, you picked a yellow to
+USER: where did  put the clothe before l hanged them ASSISTANT: Before hanging them on the rack, the
+USER: What vegetables did I chop?  ASSISTANT: You chopped celery.Ћ
+USER: What did I put in the dough in the mixer?  ASSISTANT: In the mixer, you put the dough
+USER: where did i open the door  ASSISTANT: The man is standing on a ladder in front
+USER: What food did I eat? ASSISTANT: You ate a plate of food, which included
+USER: How many fuse holders did I pick from the box? ASSISTANT: I picked three fuse holders from the box
+USER: Did I return the food pan to the cupboard? ASSISTANT: Yes, you returned the food pan to the cup
+USER: Where was the spoon before I picked it? ASSISTANT: The spoon was on the counter before I picked
+USER: where did i put my phone? ASSISTANT: The person is holding the cellphone in their hand
+USER: How many tools where in the bucket?   ASSISTANT: The bucket is full of tools, which include a
+USER: Where is phone ASSISTANT: The person is holding a cell phone in their hand
+USER: How many scoops of flour did I put  in the bucket?  ASSISTANT: You put two scoops of flour in
+USER: What color of shirt was the woman in the room wearing? ASSISTANT: The woman in the room was wearing a black
+USER: How many onions was chopped? ASSISTANT: The image does not provide enough information to determine how
+USER: Where is round brush before picked? ASSISTANT: Before being picked, the round brush is located
+USER: What did I throw in the bin? ASSISTANT: You threw a black cup in the trash bin
+USER: what did i pour in the pan? ASSISTANT: The person in the image poured a liquid into
+USER: What tool did I use on the machine first  ASSISTANT: The man used a green tool to adjust the machine
+USER: What did I pour in the sink? ASSISTANT: The person in the video poured a liquid into
+USER: Where did I put the ham? ASSISTANT: The ham is in the fridge, in the
+USER: Did I wash the green pepper? ASSISTANT: Yes, the green pepper has been washed
+USER: Where was the Orange Jerrycan? ASSISTANT: The orange jerican was located on the ground
+USER: Who did i talk to at the ATM place ? ASSISTANT: You talked to a woman at the ATM place
+USER: Where was the plier before I picked it? ASSISTANT: The plier was on the floor before you picked
+USER: What did I take from the fridge? ASSISTANT: You took a bottle of milk from the fr
+USER: How many bottles of coke was in the pack I took? ASSISTANT: There were 12 bottles of coke
+USER: Where was the egg before I picked it? ASSISTANT: The egg was in the refrigerator before
+USER: How much oil did I put in the pot? ASSISTANT: I added 2 tablespoons of oil to
+USER: How many doughs did i apply egg on? ASSISTANT: You applied egg on 10 doughs
+USER: Did I leave the tap open? ASSISTANT: Yes, you left the tap open.Ъ
+USER: what napkin did I clean my hands with? ASSISTANT: The person in the image is using a hand to
+USER: where was the machine before I opened the door? ASSISTANT: The machine was on a carpet before the door
+USER: what did I put in the fridge? ASSISTANT: The person in the video put a variety of items
+USER: What color is the paper I moved with my right hand? ASSISTANT: The paper you are holding in your right hand is
+USER: Where is the red bicycle ASSISTANT: The red bicycle is parked on the
+USER: where did I put the cabbage ASSISTANT: The cabbage was placed in a bowl.
+USER: What wooden plank did I cut into two with the sawing machine in the garage? ASSISTANT: You cut a wooden plank into two pieces using
+USER: Who did I interact with when I repaired the bike ? ASSISTANT: I interacted with a person wearing a red
+USER: How many white mugs did I see in the kitchen cabinet? ASSISTANT: There are two white mugs visible in the kitchen

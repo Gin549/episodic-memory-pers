@@ -1,0 +1,50 @@
+USER: Where is phone ASSISTANT: The phone is in the person's hand, and they are holding it up to take a picture.Ћ
+USER: How many doughs did i apply egg on? ASSISTANT: I applied egg on 10 doughs.Ћ
+USER: Where did I put the ham? ASSISTANT: The ham was placed in the refrigerator, specifically in the door compartment.Ћ
+USER: What color is the glove i covered my face with? ASSISTANT: The glove you covered your face with is black in color, as seen in the image.Ћ
+USER: What vegetables did I chop?  ASSISTANT: You chopped a head of lettuce and a piece of broccoli on the cutting board.Ћ
+USER: what words were written on the box close to the wall? ASSISTANT: The box close to the wall had the words "2 gays 1 hon" written on it, which is a reference to the LGBTQ+ community and their struggle for equal rights and acceptance in society.Ћ
+USER: What tool did I use on the machine first  ASSISTANT: The man in the video used a tool to adjust the machine first.Ћ
+USER: where was the machine before I opened the door? ASSISTANT: Before you opened the door, the machine was sitting on the stairs in the hallway.Ћ
+USER: Who did i talk to at the ATM place ? ASSISTANT: You talked to a woman at the ATM place, and she was wearing an orange shirt.Ћ
+USER: what did i pour in the pan? ASSISTANT: The person in the video poured a green liquid into the pan.Ћ
+USER: where did i put my phone? ASSISTANT: The person holding the cell phone is standing in the kitchen, which is a common place for people to use their phones for communication, browsing the internet, or using various apps for cooking, recipes, or entertainment.Ћ
+USER: How many pies were in the brown plate? ASSISTANT: There were two pies in the brown plate.Ћ
+USER: Where was the plier before I picked it? ASSISTANT: The plier was on the floor before you picked it up.Ћ
+USER: Where is the red bicycle ASSISTANT: The red bicycle is parked on the sidewalk in front of a building.Ћ
+USER: What did I throw in the bin? ASSISTANT: You threw a cup in the trash bin.Ћ
+USER: How many scoops of flour did I put  in the bucket?  ASSISTANT: You put 2 scoops of flour in the bucket.Ћ
+USER: what did I put in the fridge? ASSISTANT: You put a bunch of beer bottles in the fridge, as seen in the image.Ћ
+USER: Where were the tissue rolls after I arranged them? ASSISTANT: After arranging the tissue rolls in the bathroom, they were placed on the toilet tank, which is located next to the toilet bowl in the corner of the bathroom, as seen in the image.Ъ.
+USER: How many bottles of coke was in the pack I took? ASSISTANT: There are 67 bottles of coke in the pack you took from the refrigerator.Ъ
+USER: Where was the egg before I picked it? ASSISTANT: The egg was in the refrigerator before the person picked it out and put it in the carton of milk.Ћ
+USER: What color is the paper I moved with my right hand? ASSISTANT: The paper I moved with my right hand is white.Ћ
+USER: Did I return the food pan to the cupboard? ASSISTANT: Yes, you have returned the food pan to the cupboard after using it to hold the food.Ћ
+USER: what napkin did I clean my hands with? ASSISTANT: You cleaned your hands with a blue and white checkered napkin, which is hanging on the oven door.Ћ
+USER: Where is round brush before picked? ASSISTANT: The round brush is before being picked up by the person in the red dress, which suggests that it is located on the floor or a surface nearby, and the person is about to pick it up to use it for grooming or styling their hair or makeup.Ћ
+USER: Where was the spoon before I picked it? ASSISTANT: The spoon was on the kitchen counter before you picked it up to use in the blender.Ъ
+USER: Where was the Orange Jerrycan? ASSISTANT: The orange jerrycan was located next to the man's feet while he was skateboarding down the sidewalk in the video.Ћ
+USER: How many onions was chopped? ASSISTANT: The image does not provide enough information to determine the exact number of onions that were chopped by the person in the kitchen.Ћ
+USER: What did I put in the dough in the mixer?  ASSISTANT: You put flour in the dough in the mixer, which is a common ingredient used in baking to help the dough hold its shape and texture during the baking process.Ћ
+USER: Who did i interact with when i queued in the supermarket ASSISTANT: When you queued in the supermarket, you interacted with a woman who was standing in front of a refrigerator, and another woman who was also standing in front of a refrigerator, both of whom were wearing black shirts and black pants.d
+USER: Where was the genre book before I picked it? ASSISTANT: The genre book was on a shelf in a bookstore before the person picked it up to take a closer look at the cover and read the synopsis on the back of the book to determine if it's a good fit for their reading preferences.Ћ
+USER: What color of shirt was the woman in the room wearing? ASSISTANT: The woman in the room was wearing a black shirt.Ћ
+USER: what did l put in the drawer ASSISTANT: It is not possible to determine what L put in the drawer based on the image alone.Ћ
+USER: How many fuse holders did I pick from the box? ASSISTANT: You picked two fuse holders from the box.Ћ
+USER: What tool did I use to loosen the bolt? ASSISTANT: You used a pair of pliers to loosen the bolt on the lawn mower engine, as seen in the image.Ћ
+USER: What did I pour in the sink? ASSISTANT: The person in the video poured a bottle of detergent into the sink.Ћ
+USER: Did I wash the green pepper? ASSISTANT: Yes, you washed the green pepper in the sink.Ћ
+USER: How many tools where in the bucket?   ASSISTANT: There are two tools in the bucket.Ћ
+USER: where did  put the clothe before l hanged them ASSISTANT: Before hanging the clothes, the person put them on a rack.Ћ
+USER: What did I pick from the closet ASSISTANT: From the closet, you picked out a yellow towel to dry your hands and face after washing them in the bathroom sink with the faucet on the right side of the sink.Ъ.
+USER: Did I leave the tap open? ASSISTANT: Yes, you left the tap open in the sink.Ћ
+USER: How much oil did I put in the pot? ASSISTANT: I put 2 tablespoons of oil in the pot.Ћ
+USER: where did i open the door  ASSISTANT: The man is standing on a ladder outside a house, and he is opening the door with a key.Ћ
+USER: Where did I put the wire? ASSISTANT: You put the wire on the side of the ladder, which is a safe and secure place to attach it.Ћ
+USER: What food did I eat? ASSISTANT: You ate a bowl of cereal and a banana while sitting at the table with a laptop.Ћ
+USER: How many spoons where in the cooking pot? ASSISTANT: There are two spoons in the cooking pot.Ћ
+USER: What did I take from the fridge? ASSISTANT: You took a bottle of beer from the refrigerator to enjoy while playing video games in the dark room.Ъ
+NumBeam_2USER: where did I put the cabbage ASSISTANT: The cabbage was placed on the table next to the bowl of vegetables and other ingredients.Ћ
+USER: What wooden plank did I cut into two with the sawing machine in the garage? ASSISTANT: You cut a wooden plank into two pieces with the sawing machine in the garage.Ћ
+USER: Who did I interact with when I repaired the bike ? ASSISTANT: When you repaired the bike, you interacted with a man who was wearing a red jacket and a black backpack while he was standing in the bike repair shop with a cell phone in his hand.Ћ
+USER: How many white mugs did I see in the kitchen cabinet? ASSISTANT: I saw two white mugs in the kitchen cabinet.Ћ
