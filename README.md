@@ -1,13 +1,13 @@
 **Machine learning and Deep learning Project**<br />
-**Cecilia Berti sMatricola, Alessia Manni sMatricola, Shakti Rathore sMatricola**<br />
+**Cecilia Berti s328490, Alessia Manni s331377, Shakti Rathore s328222**<br />
 
 **Step 4_2**<br />
--In this folder you can find the tests done on the NLQ task, using VslNET and VslBase
--For both we tested Omnivore and EgoVLP features.
+-In this folder you can find the tests done on the NLQ task, using VslNET and VslBase <br />
+-For both we tested Omnivore and EgoVLP features. <br />
 
 
 **Step 4_4**<br />
--For this step the variation we decided to implements was the one related to the text encoder, so here you can find also the test done on using the VslNET, also using as encoder GloVe
+-For this step the variation we decided to implements was the one related to the text encoder, so here you can find also the test done on using the VslNET, also using as encoder GloVe.
 
 **Step 4_4_Extension**<br />
 -We decided to implement the second proposal
