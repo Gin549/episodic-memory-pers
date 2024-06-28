@@ -1,14 +1,6 @@
-Machine learning and Deep learning Project
-Cecilia Berti sMatricola, Alessia Manni sMatricola, Shakti Rathore sMatricola
-
-Step 4_2
--In this folder you can find the tests done on the NLQ task, using VslNET and VslBase -For both we tested Omnivore and EgoVLP features.
-
-Step 4_4
--For this step the variation we decided to implements was the one related to the text encoder, so here you can find also the test done on using the VslNET, also using as encoder GloVe
-
-Step 4_4_Extension
--We decided to implement the second proposal
-
-Note
--In each directory you can find the notebook related to task that we impemented, you can download and run them without any modification, except for Ego4D credentials
+**Step 4_4_Extension**<br />
+-In this folder, there are two notebook related to the proposed extension
+-The Video_LLaVA Implementation notebook, contains the code that we used to obtain the textual answers, on the 50 best predictions of the NLQ task
+-The Prediction Score Computing notebook contains the code that we used to compute the ROUGE, BERT, and METEOR scores for all the predictions we obtained. To run it, when you upload it to Colab, it is necessary to create a folder named "prediction" and upload at least one prediction file inside it. For testing, you can find the files in the folder "VideoLLAVA_Parameters_Test"
+-The folder "VideoLLAVA_Parameters_Test" contains several tests we have done by changing the parameters of Video-LLaVA. Each file name represents the parameter we changed with respect to the default configuration and its new value
+<br />
