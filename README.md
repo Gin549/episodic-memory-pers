@@ -14,7 +14,7 @@
 <br />
 
 **Qualitative_results**<br />
-- In this folder, we have stored additional qualitative results that complement those presented in the paper. Please note that videos cannot be viewed directly from GitHub; you will need to download the notebook.
+-In this folder, we have stored additional qualitative results that complement those presented in the paper. Please note that videos cannot be viewed directly from GitHub; you will need to download the notebook.
 <br />
 
 **Note**<br />
