@@ -2,7 +2,7 @@
 **Cecilia Berti s328490, Alessia Manni s331377, Shakti Rathore s328222**<br />
 
 **Step 4_2**<br />
--In this folder you can find the tests done on the NLQ task, using VslNET and VslBase <br />
+-In this folder you can find the tests done on the NLQ task, using VSLNet and VSLBase <br />
 -For both we tested Omnivore and EgoVLP features. <br />
 
 
@@ -13,6 +13,9 @@
 -We decided to implement the second proposal
 <br />
 
+**Qualitative_results**<br />
+- In this folder, we have stored additional qualitative results that complement those presented in the paper. Please note that videos cannot be viewed directly from GitHub; you will need to download the notebook.
+<br />
 
 **Note**<br />
 -In each directory you can find the notebook related to task that we impemented, you can download and run them without any modification, except for Ego4D credentials
