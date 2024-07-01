@@ -2,7 +2,7 @@
 **Cecilia Berti s328490, Alessia Manni s331377, Shakti Rathore s328222**<br />
 
 **Step 4_2**<br />
--In this folder you can find the tests done on the NLQ task, using VSLNet and VSLBase <br />
+-In this folder you can find the tests done on the NLQ task, using VSLNet and VSLBase. <br />
 -For both we tested Omnivore and EgoVLP features. <br />
 
 
@@ -10,7 +10,7 @@
 -For this step the variation we decided to implements was the one related to the text encoder, so here you can find also the test done on using the VslNET, also using as encoder GloVe.
 
 **Step 4_4_Extension**<br />
--We decided to implement the second proposal
+-We decided to implement the second proposal.
 <br />
 
 **Qualitative_results**<br />
@@ -18,4 +18,4 @@
 <br />
 
 **Note**<br />
--In each directory you can find the notebook related to task that we impemented, you can download and run them without any modification, except for Ego4D credentials
+-In each directory you can find the notebook related to task that we impemented, you can download and run them without any modification, except for Ego4D credentials.
