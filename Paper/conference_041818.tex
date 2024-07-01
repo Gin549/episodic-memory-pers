@@ -1,10 +1,21 @@
-\documentclass[conference]{IEEEtran}
-\IEEEoverridecommandlockouts
-% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
-\usepackage{cite}
-\usepackage{amsmath,amssymb,amsfonts}
-\usepackage{algorithmic}
+% CVPR 2022 Paper Template
+% based on the CVPR template provided by Ming-Ming Cheng (https://github.com/MCG-NKU/CVPR_Template)
+% modified and extended by Stefan Roth (stefan.roth@NOSPAMtu-darmstadt.de)
+
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+%%%%%%%%% PAPER TYPE  - PLEASE UPDATE FOR FINAL VERSION
+\usepackage[review]{cvpr}      % To produce the REVIEW version
+%\usepackage{cvpr}              % To produce the CAMERA-READY version
+%\usepackage[pagenumbers]{cvpr} % To force page numbers, e.g. for an arXiv version
+
+% Include other packages here, before hyperref.
 \usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{cite}
+\usepackage{algorithmic}
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{graphicx} % for \includegraphics command
@@ -16,37 +27,57 @@
 \usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue]{hyperref}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+
+% It is strongly recommended to use hyperref, especially for the review version.
+% hyperref with option pagebackref eases the reviewers' job.
+% Please disable hyperref *only* if you encounter grave issues, e.g. with the
+% file validation for the camera-ready version.
+%
+% If you comment hyperref and then uncomment it, you should delete
+% ReviewTempalte.aux before re-running LaTeX.
+% (Or just hit 'q' on the first LaTeX run, let it finish, and you
+%  should be clear).
+\usepackage[pagebackref,breaklinks,colorlinks]{hyperref}
+
+
+% Support for easy cross-referencing
+\usepackage[capitalize]{cleveref}
+\crefname{section}{Sec.}{Secs.}
+\Crefname{section}{Section}{Sections}
+\Crefname{table}{Table}{Tables}
+\crefname{table}{Tab.}{Tabs.}
+
+
+%%%%%%%%% PAPER ID  - PLEASE UPDATE
+\def\cvprPaperID{*****} % *** Enter the CVPR Paper ID here
+\def\confName{CVPR}
+\def\confYear{2022}
+
+
 \begin{document}
 
-\title{Paper Title*\\
-{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
-should not be used}
-\thanks{Identify applicable funding agency here. If none, delete this.}
-}
+%%%%%%%%% TITLE - PLEASE UPDATE
+\title{Answering Queries in Egocentric Videos: an Integrated Approach using Natural Language Localization and Visual Language Model}
 
-\author{\IEEEauthorblockN{1\textsuperscript{st} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address}
+\author{Cecilia Berti\\
+Politecnico di Torino\\
+{\tt\small s328490@studenti.polito.it}
 \and
-\IEEEauthorblockN{2\textsuperscript{nd} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address}
+Alessia Manni\\
+Politecnico di Torino\\
+{\tt\small s331377@studenti.polito.it}
 \and
-\IEEEauthorblockN{3\textsuperscript{rd} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address}
+Shakti Rathore\\
+Politecnico di Torino\\
+{\tt\small s328222@studenti.polito.it}
 }
 
 \maketitle
 
+%%%%%%%%% ABSTRACT
 \begin{abstract}
-In this paper, we address the challenge of localizing relevant video segments in response to natural language queries and subsequently generating corresponding textual answers. Our proposed pipeline integrates two specialized models for distinct stages of the process. For Natural Language Video Localization (NLVL), we employ VSLNet, an enhanced version of the VSLBase architecture. VSLNet relies on a multi-modal approach to integrate visual and textual information, producing the temporal boundaries of the relevant video segment. A key feature of VSLNet is its Query-Guided Highlighting (QGH) component, which refines the search for matching video segments, resulting in more precise localization. For answer generation, we deploy a novel Large Vision-Language model, Video LLaVA, which significantly enhances the comprehension capabilities of large vision-language models for both images and videos. This model takes as input the video clip based on the predicted boundaries and the textual query. Video LLaVa integrates visual representations into the textual feature space, enabling the large language model (LLM) to generate effective textual answers. We evaluate our approach on the Ego4D dataset, demonstrating robust performance through both quantitative and qualitative assessments.
+In this paper, we address the challenge of localizing relevant video segments in response to natural language queries and subsequently generating corresponding textual answers.  We present a pipeline that combines two specialized models for different phases of the workflow. Natural Language Video Localization (NLVL) involves locating a matching span from the video that semantically corresponds to the query, for this task we deploy VSLNet, an enhanced version of the VSLBase architecture. VSLNet relies on a multi-modal approach that integrates visual and textual information, producing the temporal boundaries of the relevant video segment. The key element of VSLNet is its Query-Guided Highlighting (QGH) component, which guides the search for matching video segments within a highlighted region, leading to more accurate localization. For the task of generating answers, we deploy a novel Large Vision-Language model, Video LLaVA, which extends the capabilities of large vision-language models to understand both images and videos. This model processes the textual query along with the shortened video, which has been clipped according to the previously predicted boundaries. Video LLaVa integrates visual representations into the textual feature space, enabling the large language model (LLM) to generate effective textual answers. We evaluate our approach on the Ego4D dataset, demonstrating robust performance through both quantitative and qualitative assessments. The code is available at \href{https://github.com/Gin549/episodic-memory-pers}{https://github.com/Gin549/episodic-memory-pers}.
 \end{abstract}
 
 \section{Introduction}
@@ -88,69 +119,81 @@ Despite their strengths, these models face limitations due to their reliance on 
 \section{Dataset}
 Traditional computer vision systems have relied on third-perspective images for a very long time. Addressing this limitation, the Ego4D dataset represents a revolutionary leap in the field of first-person visual perception. Ego4D comprises of a total of 3670 hours of egocentric video footage captured by 931 different participants across 74 locations worldwide. This dataset, created by Facebook AI (now Meta AI) in collaboration with numerous academic institutions and research organizations, is the most diverse and curated collection of daily-life activities to date, including household chores, leisure activities, work tasks and more. 
 
-To mitigate overfitting, Ego4D employs seven different head-mounted cameras, capturing a broader spectrum of human behavior and interactions than previous datasets. Additionally, it introduces five benchmark challenges aimed at testing and enhancing AI systems' capabilities in first-person perception. These challenges include episodic memory (recall past events and interactions), forecasting (predicting future actions and events) hand-object interaction(recognizing hand movements and object manipulations), (recognizing hand movements and object manipulations), audio-visual diarization(differentiating speakers and sounds) and social interaction (analyzing behaviours and interactions). 
+To mitigate overfitting, Ego4D employs seven different head-mounted cameras, capturing a broader spectrum of human behavior and interactions than previous datasets. Additionally, it introduces five benchmark challenges aimed at testing and enhancing AI systems' capabilities in first-person perception. 
 
 Our focus is on the Episodic memory challenge, which aims to evaluate and advance AI systems’ capabilities to understand and recall past events from egocentric video data. Specifically, it addresses queries expressed in natural language, with responses providing temporal windows for observing or inferring answers. To approach this task, the dataset provides extensive annotations which include:
-
 \begin{itemize}
+\setlength{\parskip}{0.05cm}   
+
     \item \textbf{Detailed timestamps}: since in ego4d videos are divided into shorter segments called clips, annotations specify start and end timestamps for segments within individual video clips and in relation to the entire video.
     \item \textbf{Language queries}: Each annotation includes formulated questions aimed at extracting specific information from the video content.
     \item \textbf{Temporal information}: Queries are accompanied by temporal data indicating their occurrence within both the clip and the overall video, along with the “response track” in the video.
-    \item \textbf{Template descriptions}: Annotations provide a set of 13 template questions, with designated slots for variables (X, Y) such as objects and actions, meant to span things a user might ask to augment their memory. In figure 1 we report the distribution of queries per template.
+    \item \textbf{Template descriptions}: Annotations provide a set of 13 template questions, with designated slots for variables (X, Y) such as objects and actions, meant to span things a user might ask to augment their memory. In fig. \ref{fig:figure1} we report the distribution of queries per template.
     \item \textbf{Raw tags}: Included to capture the essence of the queries, aiding in processing and analysis of the annotated data.
+
 \end{itemize}
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.48\textwidth]{Figure1.pdf} % adjust width as needed
-\caption{Caption}
-\label{fig:figure2}
+\includegraphics[height=4.5cm,width=0.48\textwidth]{Figure1.pdf} % adjust width as needed
+\caption{Distribution of the number of queries for the different templates.}
+\label{fig:figure1}
 \end{figure}
 
 Analyzing the data retrieved through annotations yields valuable insights for our current task. Initially, we note that the average duration of clips is 522 seconds, with the majority lasting 480 seconds (8 minutes). Approximately 9.01\% of the dataset consists of short queries, defined as lasting four frames or less at a frame rate of 30 frames per second; these queries of approximately 0 seconds duration are excluded.
 
 Another observation from plotting the distribution is the relative duration of each query compared to the total duration of its corresponding video clip. Notably, most queries encompass 2\% or less of the total clip duration. To support this finding, we analyzed the average response interval and found it to be 9.67 seconds.
 
-In Figure 2 reported below, we illustrate the distribution of the number of queries per video, suggesting an average of 15 queries per video.
+In fig. \ref{fig:figure2} reported below, we illustrate the distribution of the number of queries per video, suggesting an average of 15 queries per video.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.3\textwidth]{Figure2.pdf} % adjust width as needed
-\caption{Caption}
+\includegraphics[width=0.36\textwidth]{Figure2.pdf} % adjust width as needed
+\caption{Distribution of the number of queries for each video clip. Truncated for clarity, as the majority falls within the displayed range.}
 \label{fig:figure2}
 \end{figure}
 
-Finally, it's intriguing to note the correlation between each query and specific scenarios depicted in the video. Particularly, a significant number of queries (exceeding 100) are focused on the following scenarios: indoor navigation (walking), carpentry, cleaning/laundry, various jobs within construction and renovation companies (such as director of work, tiler, plumber, electrician, handyman, etc.), car mechanics, and cooking.
+Finally, it's interesting to note the correlation between each query and specific scenarios depicted in the video. Particularly, a significant number of queries (exceeding 100) are focused on the following scenarios: indoor navigation (walking), carpentry, cleaning/laundry, various jobs within construction and renovation companies (such as director of work, tiler, plumber, electrician, handyman, etc.), car mechanics, and cooking.
 
 
 \section{Model architecture}
+
+\begin{figure*}
+  \includegraphics[width=\textwidth,height=4cm]{VSLnet.png}
+  \caption{The two architectures for Natural Language Localization tasks are presented here. Figure (a) depicts the model architecture of VSLBase, while Figure (b) illustrates the model architecture of VSLNet.}
+  \label{fig:VSL}
+\end{figure*}
+
 In this section, we delve into the architecture of the model, tracing its evolution from the first implementation to it subsequent enhancement through the integration of the Query-Guided Highlighting (QGH) module and the transition to the BERT encoder for query encoding, examining how these modifications contribute to the improvement of the performance of the model.
 
-VSLBase (illustrated in Figure x) is the first implementation of our model for video span localization, which leverages natural language queries to identify relevant segments within the video.  The model separately extracts visual and textual features from the inputted videos and queries. For the text query, GloVe word embedding is used to encode each word. GloVe provides a dense and fixed-size vector representation of the words in a high-dimensional space (300 dimensions in our case), capturing semantic similarities. Video features are extracted through a pre-trained convolutional neural network. In our case video features extraction was not computationally feasible, for this reason we employed pre-extracted video features instead (see paragraph 4.2). 
+VSLBase (Fig. \ref{fig:VSL}a) is the first implementation of our model for video span localization, which leverages natural language queries to identify relevant segments within the video.  The model separately extracts visual and textual features from the inputted videos and queries. For the text query, GloVe word embedding is used to encode each word. GloVe provides a dense and fixed-size vector representation of the words in a high-dimensional space (300 dimensions in our case), capturing semantic similarities. Video features are extracted through a pre-trained convolutional neural network. In our case video features extraction was not computationally feasible, for this reason we employed pre-extracted video features instead (see paragraph 4.1). 
 
 Once the features are extracted, they are projected into the same dimension by two linear layers. The projected features are then processed by a shared feature encoder, which consists of a series of convolutional and recurrent layers designed to refine and enhance the feature representations.
 
-Next, the encoded features are aligned using an attention mechanism to capture their interaction. This context-query attention (CQA) mechanism computes relevance scores and attention weights for each video frame concerning the query, highlighting the segments of the video that are most likely to contain the answer. The attention mechanism allows the model to focus on relevant parts of the video, creating query-aware video representations.
+Next, the encoded features are aligned using an attention mechanism to capture their interaction. This context-query attention (CQA) mechanism computes relevance scores and attention weights for each video frame concerning the query, highlighting the segments of the video that are most likely to contain the answer.
 
 Finally, this query-aware representation is fed into a conditioned span predictor that utilizes two stacked unidirectional Long Short-Term Memory networks (LSTMs) and two feed-forward layers for predicting start and end boundaries in the video context. The predictor computes the scores for start and end position, which are then normalized into probability distributions using a SoftMax function. During training, a crucial step for predicting the start and end boundaries of the target moment in a video is the computation of the training objective. The predicted probabilities are compared with the actual (ground truth) start and end positions using a cross-entropy loss. The results obtained are then averaged to obtain the Span loss.
 
+To improve the performance of the VSLbase model, the QGH (Query-Guided Highlighting) module is introduced, leading to a more complete model, VSLNet (Fig. \ref{fig:VSL}b). In the pipeline, this module is placed after the CQA mechanism and before the span predictor module. The goal is to further highlight the features that are most important for the correct interval prediction.
 
-To improve the performance of the VSLbase model, the QGH (Query-Guided Highlighting) module is introduced, arriving, in this way, to the VSLNet model. In the pipeline, this module is placed after the CQA mechanism and before the span predictor module. The goal is to further highlight the features that are most important for the correct interval prediction.\\
-An important part of the QGH module is the classification of the visual features obtained after the CQA step as either background or foreground. Using the query-aware representation, the process consists in computing the initial start and end boundaries of the target moment, considering these as the foreground while the rest of the features are considered background. Then, the boundaries of the foreground are extended before and after the initial predictions to add more context. The result of this process is a vector Y$_{h}$ that represents the classification of the features, the ones in the background are marked as 0 while the one in the foreground as 1.\\
-Another core point of the module, involves processing the query-aware representation obtained after the CQA mechanism and the word features obtained after encoding the query. Each visual feature is concatenated with an aggregated version of the query features​. These new features are then used to compute the highlighting score S$_{h}$​. This score is also an array where, for each feature, is represented the probability of being relevant for the prediction. By integrating this score with the visual features, we obtain a new representation of them that focuses even more on the most relevant ones for the prediction. This final representation is the input for the span predictors, which compute the results as described for the VSLbase model.
-Finally to complete the transition from VSLbase to the improved model, VSLNet, there is also a change in the loss function, the first part remains the same as in VSLbase, but an additional term, that is the cross-entropy loss between Y$_{h}$ and S$_{h}$, is added.\\
+An important part of the QGH module is the classification of the visual features obtained after the CQA step as either background or foreground. Using the query-aware representation, the process consists in computing the initial start and end boundaries of the target moment, considering these as the foreground while the rest of the features are considered background. Then, the boundaries of the foreground are extended before and after the initial predictions to add more context. The result of this process is a vector $Y_{h}$ that represents the classification of the features, where the ones in the background are marked as 0 while the ones in the foreground as 1.
+
+Another core point of the module involves processing the query-aware representation obtained after the CQA mechanism and the word features obtained after encoding the query. Each visual feature is concatenated with an aggregated version of the query features. These new features are then used to compute the highlighting score $S_{h}$. This score is also an array where, for each feature, it represents the probability of being relevant for the prediction. By integrating this score with the visual features, we obtain a new representation of them that focuses even more on the most relevant ones for the prediction. This final representation is the input for the span predictors, which compute the results as described for the VSLbase model.
+
+Finally, to complete the transition from VSLbase to the improved model, VSLNet, there is also a change in the loss function. The first part remains the same as in VSLbase, but an additional term, the cross-entropy loss between $Y_{h}$ and $S_{h}$, is added.
+
+The last improvement to the model was done by substituting the GloVe embeddings with the BERT (Bidirectional Encoder Representations from Transformers) encoder, which allows for a deeper understanding of the query and subsequently a more context-aware representation of it.
+
 The last improvement to the model was done by the substitution of the Glove embeddings with the BERT (Bidirectional Encoder Representations from Transformers) encoder that allow a deeper understanding of the query and subsequently a more context-aware representation of it.
 
-
 \subsection{Pre-trained Features}
-Due to the inaccessibility of the full 3,670 hours of Ego4D videos, we trained the model on precomputed features in a sliding window manner. Specifically, at each extraction point, the model processes the next window of size W frames (e.g., at frame i, the model sees features from frames i to i + W - 1). This window begins at frame 0 and slides with a specified stride until the end of the video [cite website]. We utilize slowfast8x8 as our baseline, and compare the outcomes with two other sets of precomputed features. A detailed overview of these features is presented in the table below:
-
+Due to the inaccessibility of the full 3,670 hours of Ego4D videos, we trained the model on precomputed features in a sliding window manner. Specifically, at each extraction point, the model processes the next window of size W frames (e.g., at frame i, the model sees features [i, i + W) frames). This window begins at frame 0 and slides with a specified stride until the end of the video [\href{https://ego4d-data.org/docs/data/features/}{Ego4D}]. We utilize slowfast8x8 as our baseline, and compare the outcomes with two other sets of precomputed features. A detailed overview of these features is presented in table \ref{tab:precomputedfeatures}.
 
 \begin{table}[h]
 \centering
 \caption{Pre-computed Features for Ego4D}
 \label{tab:precomputedfeatures}
-\setlength{\tabcolsep}{4pt} 
+\setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.2}
 \resizebox{\linewidth}{!}{
 \large
@@ -160,12 +203,16 @@ Feature Type & Dataset(s) Trained On & Model Arch & Window Size (W) & Stride \\
 \midrule
 SlowFast & Kinetics400 & SlowFast8x8\hspace{0.1cm}(R101 backbone) & 32 & 16 \\
 Omnivore video & Kinetics400/ ImageNet-1K & Omnivore (Swin\hspace{0.1cm}L); video head & 32 & 16 \\
-EgoVLP & EgoClip/ HowTo100M & Frozen & 4 & 4 \\
+EgoVLP* & EgoClip/ HowTo100M & Frozen & 4 & 4 \\
 \bottomrule
 \end{tabular}
 }
-\end{table}
 
+\begin{minipage}{\linewidth}
+\vspace{0.1cm}  % Adjust spacing as needed
+{\footnotesize * Note: The extraction process of EgoVLP was taken from \cite{egoVLP}.}  
+\end{minipage}
+\end{table}
 
 \section{Proposed Approach}
 \subsection{Task}
@@ -175,7 +222,7 @@ answers the input query, to return also a textual answer,
 which could be more useful for the user, we need to use
 Video Language Models(VLMs).\\
 One problem of VLMs is that it is computationally expensive to process the entire video to answer the query. Therefore, we propose an approach that leverages the strengths of both type of models. We use a VslNet as first step of a pipeline to identify the short interval of interest. Then, we can cut the entire video to the interval of interest and feed it to a VLM alongside the query.
-Another approach could be to aggregate the full video information to make it more feasible for the model. However, this could lead to a loss of detail.\\
+Another approach could be to aggregate the full video information to make it more feasible for the model. However, this could lead to a loss of detail.
 
 The pipeline we used is shown in fig.\ref{fig:fullPipeline}, and for the VLM task, we chose Video-LLaVA.
 
@@ -187,12 +234,6 @@ The first step consists in extracting visual features (from videos or images). F
 The next step is to use a shared projection layer to project the features, then they are in the same space with the tokenized textual queries. We can then input all the data into a large LLM to get the answer.\\
 A key point of Video LLaVA is the alignment of visual modalities before projection. LanguageBind naturally aligns image and language in shared feature space using pretrained encoders. To align video representation to the language space it uses 3 millions video-text pairs from VIDAL-10M\cite{b9}. Therefore, before projection, data from both modalities are in a unified feature space.
 
-\begin{figure*}
-  \includegraphics[width=\textwidth,height=4cm]{ProposedPipeLine-removebg-preview.png}
-  \caption{Proposed Pipeline}
-  \label{fig:fullPipeline}
-\end{figure*}
-
 \subsubsection{Training pipeline}
 After obtaining the tokenized version of the textual input and visual signals input, the training consists in an optimization problem, that lead the model to achieve multi-modal understanding capabilities.
 This means that for each prediction in the training set, the objective is to maximize the probability of returning the ground-truth output based on the given input textual and visual tokens. \\
@@ -202,10 +243,18 @@ The second phase is the instruction tuning, the objective is still an optimizati
 Thus, at this stage, this model is trained to answer to more than one instruction. It must produce an output for several sequential and more complex queries, taking into consideration the entire conversation.
 (Non mi sembra importante ma at this stage also the LLM are involved in training)
 
+\begin{figure*}
+  \includegraphics[width=\textwidth,height=4cm]{FinalProposedPipeline.png}
+  \caption{The figure depicts the complete pipeline, from the inputted video and queries to the generation of the answer, encompassing the architecture of Video-LLaVA.}
+  \label{fig:fullPipeline}
+\end{figure*}
+
 \subsection{Parameters}
+\label{subsec:Parameters}
 During our tests we also observed the behaviour of the model bychanging some parameters related to output, the tested parameters were:
-\\
+
 \begin{itemize}
+\setlength{\parskip}{0.05cm} 
     \item \textit{\textbf{Max Length}}: it controls the lenght of the produced answer
     \item \textit{\textbf{Temperature}}: it controls the "creativity" of the answer, for high values, at each step, it flattens the probability distribution used to select the next word, so it can happen that the model selects also words with a lower probability score during the sequence generation, this could results in more creative but also less accurate answer
     \item \textit{\textbf{Top K}}: similarly to temperature, it also controls the diversity of the output, during the sequence generation, at each step, the model sample from the top K most probable textual tokens, higher value of K means higher diversity but also less accuracy
@@ -215,29 +264,31 @@ During our tests we also observed the behaviour of the model bychanging some par
 \end{itemize}
 
 \section{Results}
-In this section, we discuss the results obtained by our proposed pipeline. The results are divided into two parts, the first one presents the numerical evaluation of the NLQ task and the scores obtained by the textual answers produced by VideoLLaVA on several tests. The second part is a qualitative assessment, as it is not possible to judge the results of textual answers referring only to the score.\\
+In this section, we discuss the results obtained by our proposed pipeline. The results are divided into two parts, the first one presents the numerical evaluation of the NLQ task and the scores obtained by the textual answers produced by VideoLLaVA on several tests. The second part is a qualitative assessment, as it is not possible to judge the results of textual answers referring only to the score.
+
 \subsection{Numerical Results}
 \subsubsection{NLQ task}
-\hspace{1cm} \\
 The metrics that we took into consideration to compare the obtained results are the following:
 \begin{itemize}
     \item \textit{\textbf{IoU}}, Intersection over Union(IoU), it is the proportion between the intersection and the union of the ground-truth and predicted intervals\\
     \begin{equation}
+    \hspace{-0.5cm}
         IoU = \frac{\text{PredictedInterval} \cap \text{Ground-TruthIntverval}}{\text{PredictedInterval} \cup \text{Ground-TruthIntverval}}
     \end{equation}
     \item \textit{\textbf{r@k}}, Recall at rank k (r@k) is used to measure how high the correct interval is positioned in the ranking of a prediction. %For example, r@1 indicates the percentage of predictions where the correct interval is ranked as the most probable solution.
     This metric is usefull because, for each query, multiple intervals are identified as possible solutions, and these intervals are ranked based on how well the model considers them to match the query
 \end{itemize}
-
+\vspace{-0.3cm}
 \begin{table}[h]
 \centering
+\small 
 \caption{NLQ Performance}
 \label{tab:performance}
-\begin{tabular}{@{}lcccccc@{}}
+\begin{tabular}{@{}p{2.4cm}p{1.0cm}lcccccc@{}}
 \toprule
 \multirow{2}{*}{Model} & \multirow{2}{*}{Features} & \multicolumn{2}{c}{IoU=0.3 (\%)} & \multicolumn{2}{c}{IoU=0.5 (\%)} \\ 
 & & r@1  & r@5 & r@1   & r@5       \\ \midrule
-VSLNet Paper Baseline & SlowFast & 5.45 & 10.74 & 3.12 & 6.63 \\ 
+VSLNet\hspace{0.2mm}(Baseline) & SlowFast & 5.45 & 10.74 & 3.12 & 6.63 \\ 
 VSLNet & Omnivore & 6.48 & 14.04 & 3.72 & 8.70 \\ 
 VSLNet & EgoVlp & 8.03 & 15.82 & 4.75 & 10.12 \\ 
 VSLBase & Omnivore & 6.58 & 13.37 & 3.56 & 8.60 \\
@@ -249,31 +300,25 @@ VSLNet* & EgoVlp & 3.79 & 9.53 & 2.17 & 5.83 \\
 \captionsetup{font=footnotesize}
 \caption*{VSLNet* is the version that uses GloVe as encoder instead of BERT.}
 \end{table}
+
 From the table, considering the cases in which the BERT encoder is used, we can notice that both VSLNet and VSLBase, using Omnivore and EgoVLP as pre-extracted features, perform better than VSLNet using SlowFast. It is important to specify that this improvement could also be due to the fact that annotations and features might have been updated since the publication of the original baseline in the paper.
 \\
 In particular, VSLNet with EgoVlp features significantly outperforms the others when we consider $IoU = 0.3$ and $r@1$, as well as when $IoU = 0.5$ and $r@5$.
 \\
 Models that do not use BERT as an encoder perform significantly worse than those that do. This could be because the BERT encoder is more sophisticated, indeed, it also takes into account the context in which words are used.
 
-
-
-
-
-
-
 \subsubsection{Extension evaluation}
-\hspace{1cm} \\
 For the VLM task evaluation we decided to use the following metrics:
 \begin{itemize}
-    \item \textit{\textbf{R-F1}}, ROUGE-1 F1 Score(R-F1) is related to to overlap between the predicted sentence and the ground-truth. Computed as $F1-Score$ using the following precision and recall: 
+    \item \textit{\textbf{R-F1}}: ROUGE-1 F1 Score(R-F1) is related to to overlap between the predicted sentence and the ground-truth. Computed as $F1-Score$ using the following precision and recall: 
     \begin{equation*}
         Precision = \frac{\text{\small Number of overlapping words}}{\text{ \small Total words in the prediction}}
     \end{equation*}
      \begin{equation}
         Recall = \frac{\text{\small Number of overlapping words}}{\text{\small Total words in the ground truth}}
     \end{equation}
-    \item \textit{\textbf{METEOR}},The METEOR score is a more comprehensive metric than ROUGE. In addition to recall and precision, it incorporates an alignment component that measures how well the predictions align with the ground truth. Like ROUGE, METEOR produces a score between 0 and 1, however, precision and recall in METEOR are computed after an alignment process that includes stemming and synonyms matching
-    \item \textit{\textbf{B-F1}}, The BERT F1 Score(B-F1) is as an advanced evaluation metric because it incorporates contextual understanding. It utilizes pre-trained contextual embeddings from BERT to compare the embeddings of the prediction sentence and ground truth sentence, measuring their similarity with cosine similarity. After this process it is possible to compute the recall, precision and F1 score(B-F1)
+    \item \textit{\textbf{METEOR}}: The METEOR score is a more comprehensive metric than ROUGE. METEOR, similarly to ROUGE, produces a score between 0 and 1, however, precision and recall are computed after an alignment process that includes stemming and synonyms matching.
+    \item \textit{\textbf{B-F1}}, The BERT F1 Score(B-F1) is as an advanced evaluation metric because it incorporates contextual understanding. It utilizes pre-trained contextual embeddings from BERT to compare the embeddings of the prediction sentence and ground truth sentence, measuring their similarity with cosine similarity. After this process it is possible to compute the recall, precision and F1 score(B-F1).
 \end{itemize}
 
 \begin{table}[h]
@@ -283,111 +328,92 @@ For the VLM task evaluation we decided to use the following metrics:
 \begin{tabular}{@{}lccc@{}}
 \toprule
 Configuration & R F1 & Meteor & B-F1 \\ \midrule
-Default & 0.2789 & 0.2127 & 0.8667 \\
-Temperature 2.0 & 0.0270 & 0.0219 & 0.8041 \\
-Temperature 0.7 & 0.0528 & 0.0472 & 0.8113 \\
+Default & 0.59 & 0.53 & 0.93 \\
+Temperature 10.0 & 0.42 & 0.38 & 0.90 \\
+TopP 0.3 & 0.63 & 0.59 & 0.94 \\
+Beam 2 & 0.52 & 0.53 & 0.92 \\
+Max Length 10 & 0.54 & 0.44 & 0.91 \\
+TopK 200 & 0.44 & 0.42 & 0.90\\
 \bottomrule
 \end{tabular}
+\captionsetup{font=footnotesize}
+\caption*{Each configuration name represents the parameter we modified with the new value from the default settings.}
 \end{table}
 
 In table \ref{tab:comparisonSCore} we show the score obtained, using models with some parameters variations.
 The default parameters were:
-\begin{itemize}[before=\footnotesize]
-    \item $Temperature = 1.0$
-    \item $Num Beam = 1$
-    \item $Top K = 2$
-    \item $Top P = 0.9$
-    \item $Max new tokens = 100$
+
+\begin{itemize}
+\footnotesize  % or \small for a slightly larger size
+\itemsep=0.1cm    
+    \item {$Temperature = 1.0$}
+    \item {$Num Beam = 1$}
+    \item {$Top K = 2$}
+    \item {$Top P = 0.9$}
+    \item {$Max new tokens = 100$}
 \end{itemize}
-In the table, each configuration name represents the parameter we modified from the default settings to generate the new predictions and obtain the corresponding scores.
-We have done multiple test on the parameter mentioned in \ref{Parameters}.Here we present the results obtained with the default parameters, the configuration that performed the worst, and the configuration that was closest to the default that performed the best.\\
-It is notable that for both R-F1 and Meteor metrics, no configuration has achieved results as good as those obtained with the default parameters. This could be attributed to the fact that the ground truth used for reference was annotated by us, indicating that the default configuration produced predictions most similar to human language. When we examine the B-F1 scores, we see that they are generally higher and more consistent across different configurations, one explanation could be the BERT score's ability to assign high scores even when predictions and ground truths are quite dissimilar. A possible explanation, from our point of view, is that this could happen because B-F1 assesses similarity based on semantic similarity. Therefore, sentences can be considered similar if they contain words from the same semantic domain, regardless of exact phrasing.
+
+We have done multiple test on the parameters mentioned in \ref{subsec:Parameters}. Here, we present the results obtained using the default parameters, the configuration that achieved the best and worst performances were, respectively, those with $Top P = 0.3$ and the one with $Temperature = 10$. Additionally, in the table we reported the results obtained with the furthest variation of the parameters from default values.\
+Notably, for both R-F1 and Meteor metrics, no configuration achieved results as good as those obtained with the best configuration. Probably, $Top P = 0.3$ obtains the highest scores, because it produces human-like predictions that are semantically close to our ground truth. When examining the B-F1 scores, we observe that they are generally higher and more consistent across different configurations. This is because B-F1 assesses similarity based on semantic similarity, regardless of exact phrasing. Consequently, Bert's scores are usually high even when the predictions do not exactly match the ground truth.
 \\
-The previous consideration was more focused on the sentences semantic, if we talk about the accuracy of the predictions made by Video-LLaVA, the results is [mettere risultato]. To do this evaluation we had to manually chek if the answers was correct, since the scores values doesn't reflect the correctness. The total number of predictions was 50, we split them based on their category, and in [riferimento al grafico] it is possible to see the performance of the proposed approach among different categories.
-As we studied the rates of success and failures of our model with the parameters set to their default values the meaningful results are the following: \\
-\begin{itemize}[before=\footnotesize]
-    \item overall, we have a 40% success rate,  with 20 correctly answered queries over a total of 50 queries
-    \item for the Objects category we have a 36% success rate, with 15 correctly answered queries over a total of 42
-    \item for the Place category we have a 67% success rate, with 4 correctly answered queries over a total of 6
-    \item for the People category we have a 100% success rate, but on only 2 queries
-   
+The previous consideration was more focused on the sentences semantic, if we talk about the accuracy of the predictions made by Video-LLaVA, the results is show below. To do this evaluation we had to manually chek if the answers was correct, since the score values do not reflect the correctness. The total number of predictions was 50, we split them based on their category shown in \ref{fig:figure1}. We illustrate the performance of the proposed approach among different categories.
+Since the generated answers changed at every run, we computed an average of three prediction sets:
+
+\begin{itemize}
+\itemsep=0.1cm  
+\small
+    \item overall, we have a 30\% success rate, with an average of 15 correctly answered queries over a total of 50 queries.
+    \item for the Objects category we have a 24\% success rate, with an average of 10 correctly answered queries over a total of 42.
+    \item for the Place category we have a 11\% success rate, with an average of 0.67 query over a total of 6.
+    \item for the People category we have a 100\% success rate, but on only 2 queries.   
 \end{itemize}
-
-
 
 \subsection{Qualitative Results}
-In our study, visualizing the input video can help assessing the model's capacity to provide well-reasoned responses. Below, we present some of the most intriguing qualitative results we obtained. These results imply that the model performs well in cases that call for descriptive responses, providing insights that are quite similar to responses that have been manually annotated.
+In our study, visualizing the input video can help assessing the model's capacity to provide well-reasoned responses. Below, we present some of the most intriguing qualitative results we obtained. These results imply that the model performs well in cases that call for descriptive responses, providing insights that are quite similar to answers that have been manually annotated.
 
-A first example is illustrated in Figure X, the model successfully identified the object in question (broccoli) despite a brief clip that lacked clear information. In this case, the model's response surpassed our observation, since we mistakenly identified the object as green peppers. If considering the entire video, it becomes evident that the correct identification is the one provided by the algorithm.
+A first example is illustrated in fig. \ref{fig:animation1}, the model successfully identified the object in question (broccoli) despite a brief clip that lacked clear information. In this case, the model's response surpassed our observation, since we mistakenly identified the object as green peppers. If considering the entire video, it becomes evident that the correct identification is the one provided by the algorithm.
 
-To confirm the efficiency of the model, you can invastigate additional queries, where the model correctly identifies the subjects of interest, at the following link: [\href{https://github.com/Gin549/episodic-memory-pers/tree/main/qualitative_results}{LINK}].
+To confirm the efficiency of the model, we reported further results where the model correctly identifies the subjects of interest, available at \href{https://github.com/Gin549/episodic-memory-pers/tree/main/qualitative_results}{this link}.
 
 \begin{figure}[ht]
   \centering
-  \animategraphics[autoplay,loop, height=4.5cm]{12}{53c86be4-190d-4410-8750-179a7edc70b3_}{001}{025}
-  \caption{Prova}
-  \label{fig:animation}
+  \animategraphics[autoplay,loop, height=4.2cm]{12}{BroccoliClip/output_}{0001}{0055}
+  \captionsetup{justification=centering} % Center the caption
+  \caption{\textbf{Query}: \textit{What vegetables did I chop?} \\\textbf{Answer}: \textit{You chopped a head of lettuce and a piece of broccoli on the cutting board.}}
+  \label{fig:animation1}
 \end{figure}
 
-However, the model presents limitations in specific tasks, particularly in counting objects or when it is asked to provide precise quantities. Figure X exemplifies this: the model was inquired to identify the exact number of fuse holders picked from a box. The ground truth indicated six fuse holders, but the model mistakenly numbered two. This discrepancy may be attributed to the fact that the individual in the video is holding only two fuse holders in their left hand at the end of the video, and the algorithm may struggle with maintaining a precise knowledge of the temporal sequence of activities.
+
+However, the model presents limitations in specific tasks, particularly in counting objects or when asked to provide precise quantities. Figure \ref{fig:animation2} exemplifies this: the model was inquired to identify the exact number of fuse holders picked from a box. The ground truth indicated six fuse holders, but the model mistakenly numbered two. This discrepancy may be attributed to the fact that the individual in the video is holding only two fuse holders in their left hand at the end of the video, and the algorithm may struggle with maintaining a precise knowledge of the temporal sequence of activities.
 The inaccuracy in counting extends to several other queries, with additional examples available at the link mentioned above.
-
 \begin{figure}[ht]
   \centering
-  \animategraphics[autoplay,loop, height=4.5cm]{12}{53c86be4-190d-4410-8750-179a7edc70b3_}{001}{025}
-  \caption{Prova}
-  \label{fig:animation}
-\end{figure}
-
-Furthermore, we observed that the model frequently provides erroneous answers to yes/no questions. We highlight this issue in figure X, where the model provides a wrong answer despite the video clearly showing the action. One assumption is that in these situations, when the model has to choose between two options for the initial token, there is a greater chance that it will select the incorrect term. This can be due to the limitation of a binary choice, where any slight bias can significantly impact the final decision. Systematic mistakes may also result from a skewed internal probability distribution for "yes" and "no" tokens in the training data.
-
-\begin{figure}[ht]
-  \centering
-  \animategraphics[autoplay,loop, height=4.5cm]{12}{53c86be4-190d-4410-8750-179a7edc70b3_}{001}{025}
-  \caption{Prova}
-  \label{fig:animation}
+  \animategraphics[autoplay,loop, height=4.2cm]{12}{FuseHoldClip/output_}{0001}{0068}
+  \captionsetup{justification=centering} % Center the caption
+    \caption{\textbf{Query}: \textit{How many fuse holders did I pick from the box?} \\\textbf{Answer}: \textit{You picked two fuse holders from the box.}}
+  \label{fig:animation2}
 \end{figure}
 
 
+Furthermore, we observed that the model frequently provides erroneous answers to yes/no questions. We highlight this issue in fig. \ref{fig:animation3}, where the model provides a wrong answer despite the video clearly showing the action. One assumption is that in these situations, when the model has to choose between two options for the initial token, there is a greater chance that it will select the incorrect term. This can be due to the limitation of a binary choice, where any slight bias can significantly impact the final decision. Systematic mistakes may also result from a skewed internal probability distribution for "yes" and "no" tokens in the training data.
 
-\section*{References}
+\begin{figure}[ht]
+  \centering
+  \animategraphics[autoplay,loop, height=4.2cm]{12}{TapClip/output_}{0001}{0130}
+  \captionsetup{justification=centering} % Center the caption
+      \caption{\textbf{Query}: \textit{Did I leave the tap open?} \\\textbf{Answer}: \textit{Yes, you left the tap open in the sink.}}
+  \label{fig:animation3}
+\end{figure}
 
-Please number citations consecutively within brackets \cite{b1}. The 
-sentence punctuation follows the bracket \cite{b2}. Refer simply to the reference 
-number, as in \cite{b3}---do not use ``Ref. \cite{b3}'' or ``reference \cite{b3}'' except at 
-the beginning of a sentence: ``Reference \cite{b3} was the first $\ldots$''
+\section{Conclusions}
+Throughout our analysis we have proposed and evaluated an advanced pipeline addressing the NLVL challenge working with two state-of-the-art models. By combining the strenght of VSLNet for precise video segment localization and Video-LLAva for generating accurate textual answers,we have demonstrated how these innovations improved traditional methods.
+We have proved that our pipeline achieves good performances overall, although there are some areas where the model falls short, thereby indicating where future work should focus in order to reach an even higher accuracy.
+We had the chance to see that despite the strong performance in many scenarios, the model struggles with very complex queries or poorly formulated ones, highlighting a potential area for improvement in robustness to variations in input quality.
+%------------------------------------------------------------------------
 
-Number footnotes separately in superscripts. Place the actual footnote at 
-the bottom of the column in which it was cited. Do not put footnotes in the 
-abstract or reference list. Use letters for table footnotes.
-
-Unless there are six authors or more give all authors' names; do not use 
-``et al.''. Papers that have not been published, even if they have been 
-submitted for publication, should be cited as ``unpublished'' \cite{b4}. Papers 
-that have been accepted for publication should be cited as ``in press'' \cite{b5}. 
-Capitalize only the first word in a paper title, except for proper nouns and 
-element symbols.
-
-For papers published in translation journals, please give the English 
-citation first, followed by the original foreign-language citation \cite{b6}.
-
-\begin{thebibliography}{00}
-\bibitem{b1} Santhosh Kumar Ramakrishnan and Ziad Al-Halah and Kristen Grauman, ``NaQ: Leveraging Narrations as Queries to Supervise Episodic Memory'', 2023.
-\bibitem{b2} Jiyang Gao and Chen Sun and Zhenheng Yang and Ram Nevatia, ``TALL: Temporal Activity Localization via Language Query, '' 2017.
-\bibitem{b3} Hao Zhang and Aixin Sun and Wei Jing and Joey Tianyi Zhou, ``Span-based Localizing Network for Natural Language Video Localization'' 2020.
-\bibitem{b4} Chen, Jingyuan and Ma, Lin and Xinpeng, Chen and Jie, Zequn and Luo, Jiebo, ``Localizing Natural Language in Videos'' 2019.
-
-\bibitem{b5} Lisa Anne Hendricks and Oliver Wang and Eli Shechtman and Josef Sivic and Trevor Darrell and Bryan Russell, ``Localizing Moments in Video with Temporal Language'' 2018.
-
-\bibitem{b6} Deyao Zhu and Jun Chen and Xiaoqian Shen and Xiang Li and Mohamed Elhoseiny, ``MiniGPT-4: Enhancing Vision-Language Understanding with Advanced Large Language Models'' 2023.
-
-\bibitem{b7} Qinghao Ye, Haiyang Xu, Guohai Xu, Jiabo Ye, Ming Yan, Yiyang Zhou, Junyang Wang, Anwen Hu, Pengcheng Shi, Yaya Shi, Chenliang Li, Yuanhong Xu, Hehong Chen, Junfeng Tian, Qi Qian, Ji Zhang, Fei Huang, Jingren Zhou, ``mPLUG-Owl: Modularization Empowers Large Language Models with Multimodality'' 2023.
-\bibitem{b8} Lin, B., Zhu, B., Ye, Y., Ning, M., Jin, P., & Yuan, L. (2023). Video-llava: Learning united visual representation by alignment before projection. arXiv preprint arXiv:2311.10122.
-\bibitem{b9}Bin Zhu, Bin Lin, Munan Ning, Yang Yan, Jiaxi Cui, HongFa Wang, Yatian Pang, Wenhao Jiang, Junwu Zhang, Zongwei Li, et al. Languagebind: Extending video-language pretrain- ing to n-modality by language-based semantic alignment. arXiv preprint arXiv:2310.01852, 2023.
-
-\end{thebibliography}
-\vspace{12pt}
-\color{red}
-IEEE conference templates contain guidance text for composing and formatting conference papers. Please ensure that all template text is removed from your conference paper prior to submission to the conference. Failure to remove the template text from your paper may result in your paper not being published.
-
+%%%%%%%%% REFERENCES
+{\small
+\bibliographystyle{ieee_fullname}
+\bibliography{egbib}
+}
 \end{document}
