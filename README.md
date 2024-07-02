@@ -10,6 +10,9 @@
 -In this folder you can find the tests done on the NLQ task, using VSLNet and VSLBase. <br />
 -For both we tested Omnivore and EgoVLP features. <br />
 
+**NLQ**<br />
+-In this folder you can find the version of the code forked from the original EGO4D repository, modified to implement the VSLbase. For the VSLNet we cloned directyl the original repository in the code when it was needed. <br />
+
 
 **Step 4_4**<br />
 -For this step the variation we decided to implements was the one related to the text encoder, so here you can find also the test done on using the VslNET, also using as encoder GloVe.
