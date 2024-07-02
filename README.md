@@ -23,4 +23,4 @@
 <br />
 
 **Note**<br />
--In each directory you can find the notebook related to task that we impemented, you can download and run them without any modification, except for Ego4D credentials.
+-In each directory you can find the notebook related to task that we impemented, you can download and run them without any modification, except for Ego4D credentials. The only exception is the notebook we used to compute the predictions score, in this case it is necessary to create a folder "predictions" and upload at least a predictions file.
