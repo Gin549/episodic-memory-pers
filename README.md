@@ -1,6 +1,11 @@
 **Machine learning and Deep learning Project**<br />
 **Cecilia Berti s328490, Alessia Manni s331377, Shakti Rathore s328222**<br />
 
+**Paper**<br />
+-Not all PDF readers support the GIF format. To have a better visualization of the qualitative results, we suggest using Adobe Acrobat Reader<br />
+
+
+
 **Step 4_2**<br />
 -In this folder you can find the tests done on the NLQ task, using VSLNet and VSLBase. <br />
 -For both we tested Omnivore and EgoVLP features. <br />
