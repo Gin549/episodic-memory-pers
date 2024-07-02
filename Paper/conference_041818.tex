@@ -5,9 +5,9 @@
 \documentclass[10pt,twocolumn,letterpaper]{article}
 
 %%%%%%%%% PAPER TYPE  - PLEASE UPDATE FOR FINAL VERSION
-\usepackage[review]{cvpr}      % To produce the REVIEW version
-%\usepackage{cvpr}              % To produce the CAMERA-READY version
-%\usepackage[pagenumbers]{cvpr} % To force page numbers, e.g. for an arXiv version
+%usepackage[review]{cvpr}      % To produce the REVIEW version
+\usepackage{cvpr}              % To produce the CAMERA-READY version
+\usepackage[pagenumbers]{cvpr} % To force page numbers, e.g. for an arXiv version
 
 % Include other packages here, before hyperref.
 \usepackage{graphicx}
@@ -91,13 +91,13 @@ The NLQ challenge, along with related video-language question answering tools, h
 
 In this paper, we propose an approach that first solves the NLVL problem by extracting the start and end boundaries of the answer span from the video. Then, we exploit a Large Language Visual Model to generate a natural language answer from the extracted clip.
 
-As a baseline, we first address the NLVL task with a standard span-based QA framework for video input named VSLBase, whose architecture is presented in section 4, comparing the outcomes obtained using different sets of pre-extracted features. We then propose an improved version, VSLNet, implemented with different encoders to assess the most effective version. Finally, we utilize an open-source model, Video-LLaVA, detailed in section 5B. This model generates natural language answers to the posed questions, which are then evaluated both quantitatively and qualitatively.
+As a baseline, we first address the NLVL task with a standard span-based QA framework for video input named VSLBase, whose architecture is presented in section \ref{sec:vslnet}, comparing the outcomes obtained using different sets of pre-extracted features. We then propose an improved version, VSLNet, implemented with different encoders to assess the most effective version. Finally, we utilize an open-source model, Video-LLaVA, detailed in section \ref{subsec:videolava}. This model generates natural language answers to the posed questions, which are then evaluated both quantitatively and qualitatively.
 
 \section{Related work}
 
 \subsection{Localizing Video Segments with Natural Language}
 
-The task of localizing moments within a long video has improved enormously in the last few years. Prior work was solely based on scanning videos by predefined windows of different sizes. Gao et al. (2017) introduced the first dataset, "TACoS," for temporal activity localization with sentence descriptions, utilizing a sliding window approach. These methods typically generate segment candidates throughout the video using temporal sliding windows. These segments are then either compared (Hendricks et al. 2017) or combined (Gao et al. 2017) with the given sentence to identify the relevant parts of the video. While these models achieve good overall matching between video segments and sentences, they often miss fine-grained interactions and context details, and are inefficient due to the exhaustive search process across the video's timeline, making them computationally expensive \cite{b4}.
+The task of localizing moments within a long video has grown enormously in the last few years. Prior work was solely based on scanning videos by predefined windows of different sizes. Gao et al. (2017) introduced the first dataset, "TACoS," for temporal activity localization with sentence descriptions, utilizing a sliding window approach. These methods typically generate segment candidates throughout the video using temporal sliding windows. These segments are then either compared (Hendricks et al. 2017) or combined (Gao et al. 2017) with the given sentence to identify the relevant parts of the video. While these models achieve good overall matching between video segments and sentences, they often miss fine-grained interactions and context details, and are inefficient due to the exhaustive search process across the video's timeline, making them computationally expensive \cite{b4}.
 
 
 To address the challenges related to context understanding, Zhang et al.(2020), proposed TAN-2D model. The goal was to localize the target moment on a two-dimensional map that captures the relationship between a specific moment and all other temporal segments. The main idea behind the model is that after extracting features from the moment candidates within the video, these features are organized into a 2D temporal feature map. The next part involves multi-modal fusion with textual features, followed by the application of a Temporal Adjacent Network on the fused feature map to enhance the model's contextual awareness of adjacent moments.
@@ -157,14 +157,15 @@ Finally, it's interesting to note the correlation between each query and specifi
 
 
 \section{Model architecture}
+\label{sec:vslnet}
 
 \begin{figure*}
-  \includegraphics[width=\textwidth,height=4cm]{VSLnet.png}
-  \caption{The two architectures for Natural Language Localization tasks are presented here. Figure (a) depicts the model architecture of VSLBase, while Figure (b) illustrates the model architecture of VSLNet.}
+  \includegraphics[width=\textwidth,height=3.2cm]{VSLnet.png}
+  \caption{The two architectures for Natural Language Localization tasks are presented here. Figure (a) depicts the model architecture of VSLBase, while Figure (b) illustrates the model architecture of VSLNet. \textit{The image was taken from \cite{b3}.}}
   \label{fig:VSL}
 \end{figure*}
 
-In this section, we delve into the architecture of the model, tracing its evolution from the first implementation to it subsequent enhancement through the integration of the Query-Guided Highlighting (QGH) module and the transition to the BERT encoder for query encoding, examining how these modifications contribute to the improvement of the performance of the model.
+In this section, we delve into the architecture of the NLVL model, tracing its evolution from the first implementation to it subsequent enhancement through the integration of the Query-Guided Highlighting (QGH) module and the transition to the BERT encoder for query encoding, examining how these modifications contribute to the improvement of the performance of the model.
 
 VSLBase (Fig. \ref{fig:VSL}a) is the first implementation of our model for video span localization, which leverages natural language queries to identify relevant segments within the video.  The model separately extracts visual and textual features from the inputted videos and queries. For the text query, GloVe word embedding is used to encode each word. GloVe provides a dense and fixed-size vector representation of the words in a high-dimensional space (300 dimensions in our case), capturing semantic similarities. Video features are extracted through a pre-trained convolutional neural network. In our case video features extraction was not computationally feasible, for this reason we employed pre-extracted video features instead (see paragraph 4.1). 
 
@@ -180,11 +181,9 @@ An important part of the QGH module is the classification of the visual features
 
 Another core point of the module involves processing the query-aware representation obtained after the CQA mechanism and the word features obtained after encoding the query. Each visual feature is concatenated with an aggregated version of the query features. These new features are then used to compute the highlighting score $S_{h}$. This score is also an array where, for each feature, it represents the probability of being relevant for the prediction. By integrating this score with the visual features, we obtain a new representation of them that focuses even more on the most relevant ones for the prediction. This final representation is the input for the span predictors, which compute the results as described for the VSLbase model.
 
-Finally, to complete the transition from VSLbase to the improved model, VSLNet, there is also a change in the loss function. The first part remains the same as in VSLbase, but an additional term, the cross-entropy loss between $Y_{h}$ and $S_{h}$, is added.
+Finally, there is also a change in the loss function. The first part remains the same as in VSLbase, but an additional term, the cross-entropy loss between $Y_{h}$ and $S_{h}$, is added.
 
 The last improvement to the model was done by substituting the GloVe embeddings with the BERT (Bidirectional Encoder Representations from Transformers) encoder, which allows for a deeper understanding of the query and subsequently a more context-aware representation of it.
-
-The last improvement to the model was done by the substitution of the Glove embeddings with the BERT (Bidirectional Encoder Representations from Transformers) encoder that allow a deeper understanding of the query and subsequently a more context-aware representation of it.
 
 \subsection{Pre-trained Features}
 Due to the inaccessibility of the full 3,670 hours of Ego4D videos, we trained the model on precomputed features in a sliding window manner. Specifically, at each extraction point, the model processes the next window of size W frames (e.g., at frame i, the model sees features [i, i + W) frames). This window begins at frame 0 and slides with a specified stride until the end of the video [\href{https://ego4d-data.org/docs/data/features/}{Ego4D}]. We utilize slowfast8x8 as our baseline, and compare the outcomes with two other sets of precomputed features. A detailed overview of these features is presented in table \ref{tab:precomputedfeatures}.
@@ -218,45 +217,46 @@ EgoVLP* & EgoClip/ HowTo100M & Frozen & 4 & 4 \\
 \subsection{Task}
 In the NLQ task, we use models that retrieve only the
 information about the temporal interval of the video that
-answers the input query, to return also a textual answer,
+answers the input query. To return also a textual answer,
 which could be more useful for the user, we need to use
 Video Language Models(VLMs).\\
 One problem of VLMs is that it is computationally expensive to process the entire video to answer the query. Therefore, we propose an approach that leverages the strengths of both type of models. We use a VslNet as first step of a pipeline to identify the short interval of interest. Then, we can cut the entire video to the interval of interest and feed it to a VLM alongside the query.
-Another approach could be to aggregate the full video information to make it more feasible for the model. However, this could lead to a loss of detail.
+Another approach could be to aggregate the full video information to make it more feasible for the model, although  this approach could lead to loss of detail.
 
 The pipeline we used is shown in fig.\ref{fig:fullPipeline}, and for the VLM task, we chose Video-LLaVA.
 
 \subsection{Video-LLava}
+\label{subsec:videolava}
 Video LLava is a Large Vision-Language model, so given a query and a visual input, its task is to produce a textual answer.  It is capable of simultaneously handling both image and videos. Many existing approaches encode images and videos into separate input spaces, but this can be a limitation. Instead, this model uses a unified visual representation for both modalities within the language feature space.\\
 Also, in paper \cite{b8} it is shown that unified visual representation befits LLMs in learning both images and videos when compared to models specifically designed for one of the modalities.
 \subsubsection{Model Structure}
 The first step consists in extracting visual features (from videos or images). For this purpose, LanguageBind encoders are used \cite{b9}. These encoders can map different modalities into the textual feature space. At the end of this process, we obtain a unified visual representation.\\ 
-The next step is to use a shared projection layer to project the features, then they are in the same space with the tokenized textual queries. We can then input all the data into a large LLM to get the answer.\\
+The next step is to use a shared projection layer to project the features, ensuring that they are in the same space with the tokenized textual queries. We can then input all the data into a large LLM to get the answer.\\
 A key point of Video LLaVA is the alignment of visual modalities before projection. LanguageBind naturally aligns image and language in shared feature space using pretrained encoders. To align video representation to the language space it uses 3 millions video-text pairs from VIDAL-10M\cite{b9}. Therefore, before projection, data from both modalities are in a unified feature space.
 
 \subsubsection{Training pipeline}
-After obtaining the tokenized version of the textual input and visual signals input, the training consists in an optimization problem, that lead the model to achieve multi-modal understanding capabilities.
+After obtaining the tokenized version of the textual input and visual signals input, the training consists in an optimization problem, that leads the model to achieve multi-modal understanding capabilities.
 This means that for each prediction in the training set, the objective is to maximize the probability of returning the ground-truth output based on the given input textual and visual tokens. \\
-An important point to note at this stage, which is also one of the model's strengths, is the simultaneous training on both images and videos, with every batch containing both types of data.\\
+An important point to highlight at this stage, which is also one of the model's strengths, is the simultaneous training on both images and videos, with every batch containing both types of data.\\
 In the first stage of training, the main focus is on associating the textual data with visual data using a extensive image/video-text pair dataset.\\
-The second phase is the instruction tuning, the objective is still an optimization problem but with the addition of a context variable. The context is the combination of the previous queries and answers.\\
-Thus, at this stage, this model is trained to answer to more than one instruction. It must produce an output for several sequential and more complex queries, taking into consideration the entire conversation.
-(Non mi sembra importante ma at this stage also the LLM are involved in training)
+The second phase is the instruction tuning, where the objective is still an optimization problem but with the addition of a context variable, which is the combination of the previous queries and answers.\\
+Thus, at this stage, this model is trained to answer to more than one instruction. It must produce an output for several more complex and sequential queries, taking into consideration the entire conversation.
+
 
 \begin{figure*}
-  \includegraphics[width=\textwidth,height=4cm]{FinalProposedPipeline.png}
+  \includegraphics[width=\textwidth,height=3.5cm]{FinalProposedPipeline.png}
   \caption{The figure depicts the complete pipeline, from the inputted video and queries to the generation of the answer, encompassing the architecture of Video-LLaVA.}
   \label{fig:fullPipeline}
 \end{figure*}
 
 \subsection{Parameters}
 \label{subsec:Parameters}
-During our tests we also observed the behaviour of the model bychanging some parameters related to output, the tested parameters were:
+During our tests we also observed the behaviour of the model bychanging some parameters related to the output, the tested parameters were:
 
 \begin{itemize}
 \setlength{\parskip}{0.05cm} 
     \item \textit{\textbf{Max Length}}: it controls the lenght of the produced answer
-    \item \textit{\textbf{Temperature}}: it controls the "creativity" of the answer, for high values, at each step, it flattens the probability distribution used to select the next word, so it can happen that the model selects also words with a lower probability score during the sequence generation, this could results in more creative but also less accurate answer
+    \item \textit{\textbf{Temperature}}: it controls the "creativity" of the answer, for high values, at each step; it flattens the probability distribution used to select the next word, so it can happen that the model selects also words with a lower probability score during the sequence generation, which could results in more creative but also less accurate answers
     \item \textit{\textbf{Top K}}: similarly to temperature, it also controls the diversity of the output, during the sequence generation, at each step, the model sample from the top K most probable textual tokens, higher value of K means higher diversity but also less accuracy
     \item \textit{\textbf{Top P}}: it controls the balance between accuracy and diversity, at each step, for the sampling are chosen the smallest number of tokens that have a cumulative probability greater or equal to P
      \item \textit{\textbf{Num Beam}}: it controls the number of sequence that the model maintains at each step, an higher number can lead to more accurate solution. Basically at every iteration the algorithm try to combine to the current sequences with all the possible words, after doing that, the probability of all the new sequences is computed and the $Num Beam$ most probable sequences are kept for the following step
@@ -343,15 +343,18 @@ TopK 200 & 0.44 & 0.42 & 0.90\\
 In table \ref{tab:comparisonSCore} we show the score obtained, using models with some parameters variations.
 The default parameters were:
 
-\begin{itemize}
-\footnotesize  % or \small for a slightly larger size
-\itemsep=0.1cm    
-    \item {$Temperature = 1.0$}
-    \item {$Num Beam = 1$}
-    \item {$Top K = 2$}
-    \item {$Top P = 0.9$}
-    \item {$Max new tokens = 100$}
-\end{itemize}
+\begin{table}[h]
+\centering
+\scriptsize
+\label{tab:performance}
+\begin{tabular}{@{}p{1.2cm}p{1.0cm}p{1.0cm}p{1.0cm}p{1.0cm}p{1.5cm}@{}}
+\toprule
+Temperature & Num Beam & Top K & Top P & Max new tokens \\ \midrule
+1.0 & 1 & 2 & 0.9 & 100 \\ 
+\bottomrule
+\end{tabular}
+\captionsetup{font=footnotesize}
+\end{table}
 
 We have done multiple test on the parameters mentioned in \ref{subsec:Parameters}. Here, we present the results obtained using the default parameters, the configuration that achieved the best and worst performances were, respectively, those with $Top P = 0.3$ and the one with $Temperature = 10$. Additionally, in the table we reported the results obtained with the furthest variation of the parameters from default values.\
 Notably, for both R-F1 and Meteor metrics, no configuration achieved results as good as those obtained with the best configuration. Probably, $Top P = 0.3$ obtains the highest scores, because it produces human-like predictions that are semantically close to our ground truth. When examining the B-F1 scores, we observe that they are generally higher and more consistent across different configurations. This is because B-F1 assesses similarity based on semantic similarity, regardless of exact phrasing. Consequently, Bert's scores are usually high even when the predictions do not exactly match the ground truth.
@@ -373,7 +376,7 @@ In our study, visualizing the input video can help assessing the model's capacit
 
 A first example is illustrated in fig. \ref{fig:animation1}, the model successfully identified the object in question (broccoli) despite a brief clip that lacked clear information. In this case, the model's response surpassed our observation, since we mistakenly identified the object as green peppers. If considering the entire video, it becomes evident that the correct identification is the one provided by the algorithm.
 
-To confirm the efficiency of the model, we reported further results where the model correctly identifies the subjects of interest, available at \href{https://github.com/Gin549/episodic-memory-pers/tree/main/qualitative_results}{this link}.
+To confirm the efficiency of the model, we reported further results where the model correctly identifies the subjects of interest, available at this \href{https://github.com/Gin549/episodic-memory-pers/tree/main/qualitative_results}{link}.
 
 \begin{figure}[ht]
   \centering
@@ -406,9 +409,15 @@ Furthermore, we observed that the model frequently provides erroneous answers to
 \end{figure}
 
 \section{Conclusions}
-Throughout our analysis we have proposed and evaluated an advanced pipeline addressing the NLVL challenge working with two state-of-the-art models. By combining the strenght of VSLNet for precise video segment localization and Video-LLAva for generating accurate textual answers,we have demonstrated how these innovations improved traditional methods.
-We have proved that our pipeline achieves good performances overall, although there are some areas where the model falls short, thereby indicating where future work should focus in order to reach an even higher accuracy.
-We had the chance to see that despite the strong performance in many scenarios, the model struggles with very complex queries or poorly formulated ones, highlighting a potential area for improvement in robustness to variations in input quality.
+Throughout our analysis we have proposed and evaluated an advanced pipeline addressing the NLVL challenge working with two state-of-the-art models. By combining the strenght of VSLNet for precise video segment localization and Video-LLAva for accurate textual answers, we demonstrated improvements over the traditional methods.
+Our pipeline achieves overall good performances although some areas require improvements.
+Despite the strong performance, the model struggles with very complex queries or poorly formulated ones, suggesting a need for better input quality robustness.
+
+While NLQ task predictions are generally good, they are sometimes too short.
+To this end, a small enough enlarging of the predictions boundaries would allow Video-LLaVa to get more context, therefore making it able to understand the clip better and return more accurate textual answers.
+
+The publication of Video-LLaVa model is very recent, but just in the last year models like Gpt-4o, one of the latest versions of GPT, has reached very good performance in video understanding, although we still do not have data to compare its efficency at training or inference time.
+Advancements in video-understanding like Gpt-4o offer promising directions for further improvements in the field of video-understanding.
 %------------------------------------------------------------------------
 
 %%%%%%%%% REFERENCES
