@@ -3,6 +3,7 @@
 
 **Paper**<br />
 -Not all PDF readers support the GIF format. To have a better visualization of the qualitative results, we suggest using Adobe Acrobat Reader<br />
+-Link to the paper:"https://drive.google.com/file/d/1jv0QTO_CJxXTOBoFznfWmVk0pJzaF-qw/view?usp=drive_link"
 
 
 
